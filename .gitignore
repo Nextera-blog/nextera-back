@@ -1,0 +1,16 @@
+# Virtual environnement
+nextera_venv/
+
+# Compiled Python files
+__pycache__/
+*.py[cod]
+
+# Environnement files
+.env
+.env.local
+
+# Django Logs
+*.log
+
+# Default DB creation
+db.sqlite3
