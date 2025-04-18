@@ -1,2 +1,3 @@
 # Nextera back-end
-## Organisation du dépôt
+
+## Set Django Environnement
