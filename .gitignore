@@ -11,3 +11,6 @@ __pycache__/
 
 # Django Logs
 *.log
+
+# Default DB creation
+db.sqlite3
