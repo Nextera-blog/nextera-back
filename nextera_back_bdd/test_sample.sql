@@ -1,69 +1,64 @@
--- Hypothétique table `users` gérée par Django
-INSERT INTO users (id, username, email, password) VALUES
-(1, 'admin', 'admin@nextera.fr', 'motdepasse123'),
-(2, 'paul_dupont', 'paul@nextera.fr', 'motdepasse123'),
-(3, 'julie_martin', 'julie@nextera.fr', 'motdepasse123'),
-(4, 'luc_bernard', 'luc@nextera.fr', 'motdepasse123'),
-(5, 'marie_durand', 'marie@nextera.fr', 'motdepasse123'),
-(6, 'antoine_lefebvre', 'antoine@nextera.fr', 'motdepasse123');
+-- Données d'exemple : Auteurs
+INSERT INTO authors (name, bio, profile_picture_url) VALUES
+('Alice Dupont', 'Journaliste passionnée de science, elle écrit régulièrement pour des magazines scientifiques.', 'https://example.com/profiles/alice.jpg'),
+('David Moreau', 'Blogueur spécialisé en minimalisme, avec un penchant pour la technologie et l\'écologie.', 'https://example.com/profiles/david.jpg'),
+('Sophie Martin', 'Écrivaine et créatrice de contenu autour du développement personnel et des voyages.', 'https://example.com/profiles/sophie.jpg'),
+('Marc Leclerc', 'Développeur web et passionné par l\'intelligence artificielle et la blockchain.', 'https://example.com/profiles/marc.jpg');
 
--- Tags d'articles
+-- Données d'exemple : Articles
+INSERT INTO articles (title, content, author_id) VALUES
+('Le minimalisme numérique expliqué simplement', 'Le minimalisme numérique consiste à réduire la surcharge digitale...', 2),
+('Les découvertes scientifiques de 2023', '2023 a été une année marquée par des avancées révolutionnaires...', 1),
+('10 astuces pour un voyage écoresponsable', 'Voyager tout en respectant l\'environnement, voici comment...', 3),
+('Blockchain : l\'avenir du web décentralisé', 'La blockchain est plus qu\'une simple technologie, elle représente l\'avenir du web...', 4);
+
+-- Données d'exemple : Commentaires
+INSERT INTO comments (content, author_id, article_id) VALUES
+('Très bon article, merci pour ces informations pratiques.', 1, 1),
+('Article très pertinent, j\'ai beaucoup appris !', 2, 1),
+('J\'adore ce sujet, surtout la partie sur l\'écologie.', 3, 2),
+('Je n\'y connais rien, mais l\'article est bien écrit !', 4, 2),
+('Des idées intéressantes pour les voyageurs !', 1, 3),
+('Je vais appliquer ces astuces lors de mon prochain voyage.', 3, 3),
+('Cet article est un peu trop technique pour moi...', 2, 4),
+('Vivement l\'avenir de la blockchain !', 1, 4);
+
+-- Données d'exemple : Tags
 INSERT INTO tags (name) VALUES
-('technologie'),
-('santé'),
-('éducation'),
-('divertissement'),
-('science'),
-('environnement');
+('Technologie'), 
+('Science'), 
+('Voyages'), 
+('Développement Personnel'),
+('Blockchain'), 
+('Minimalisme'), 
+('Environnement');
 
--- Articles de test
-INSERT INTO articles (article_id, title, content, creation_date, author_id) VALUES
-(1, 'L\'avenir de l\'IA', 'Exploration des avancées de l\'intelligence artificielle.', NOW(), 1),
-(2, 'Les bienfaits du sport', 'Pourquoi faire du sport est essentiel pour la santé.', NOW(), 2),
-(3, 'La conquête spatiale en 2025', 'Les nouvelles missions et technologies spatiales.', NOW(), 3),
-(4, 'Langages de programmation en 2025', 'Les langages les plus demandés sur le marché.', NOW(), 4),
-(5, 'Énergies renouvelables', 'Le développement durable et les nouvelles sources d\'énergie.', NOW(), 5),
-(6, 'Santé mentale et numérique', 'Comment la technologie peut-elle aider notre bien-être ?', NOW(), 6);
-
--- Liaisons articles-tags
+-- Données d'exemple : Association Article-Tag
 INSERT INTO article_tags (article_id, tag_id) VALUES
-(1, 1), (1, 5),
-(2, 2),
-(3, 5),
-(4, 1), (4, 3),
-(5, 6),
-(6, 2), (6, 1);
+(1, 6), (1, 7),
+(2, 2), (2, 1),
+(3, 3), (3, 7),
+(4, 5), (4, 1);
 
--- Commentaires sur les articles
-INSERT INTO comments (content, creation_date, author_id, article_id) VALUES
-('Article très intéressant sur l\'IA.', NOW(), 2, 1),
-('Bravo pour cette analyse !', NOW(), 3, 1),
-('Le sport m\'a changé la vie.', NOW(), 1, 2),
-('Très informatif, merci !', NOW(), 4, 2),
-('J\'adore suivre les actualités spatiales.', NOW(), 2, 3),
-('Superbe résumé des langages à apprendre.', NOW(), 5, 4),
-('Important de parler des énergies propres.', NOW(), 6, 5),
-('Sujet essentiel, bien traité.', NOW(), 3, 6);
+-- Données d'exemple : Réactions sur articles
+INSERT INTO article_reactions (user_id, article_id, reaction_type_id, reaction_date) VALUES
+(1, 1, 1, '2025-04-17 10:30:00'),
+(2, 1, 2, '2025-04-17 11:00:00'),
+(3, 2, 1, '2025-04-17 12:30:00'),
+(4, 3, 3, '2025-04-17 14:00:00'),
+(2, 4, 4, '2025-04-17 15:00:00');
 
--- Réactions aux articles
-INSERT INTO article_reactions (user_id, article_id, reaction_type_id) VALUES
-(1, 1, 1),
-(2, 1, 2),
-(3, 2, 1),
-(4, 2, 4),
-(5, 3, 5),
-(6, 4, 6),
-(1, 5, 2),
-(2, 6, 3);
+-- Données d'exemple : Réactions sur commentaires
+INSERT INTO comment_reactions (user_id, comment_id, reaction_type_id, reaction_date) VALUES
+(1, 1, 1, '2025-04-17 10:40:00'),
+(2, 2, 2, '2025-04-17 11:05:00'),
+(3, 3, 3, '2025-04-17 12:35:00'),
+(4, 4, 4, '2025-04-17 14:05:00'),
+(1, 5, 5, '2025-04-17 15:10:00');
 
--- Réactions aux commentaires
-INSERT INTO comment_reactions (user_id, comment_id, reaction_type_id) VALUES
-(3, 1, 1),
-(4, 2, 2),
-(5, 3, 5),
-(6, 4, 4),
-(1, 5, 6),
-(2, 6, 3),
-(3, 7, 1),
-(4, 8, 2);
-"""
+-- Données d'exemple : Assignation des rôles aux utilisateurs
+INSERT INTO users_roles (user_id, role_id) VALUES
+(1, 1), -- Alice : Admin
+(2, 2), -- David : Author
+(3, 2), -- Sophie : Author
+(4, 3); -- Marc : Visitor

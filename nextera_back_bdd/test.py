@@ -1,58 +1,79 @@
 from django.test import TestCase
+from .models import Author, Article, Comment, Tag, ReactionType, ArticleReaction, CommentReaction, Role, UserRole
 from django.utils import timezone
-from .models import Article, Commentaire, Tag, ReactionArticle, ReactionCommentaire, TypeReaction, User  # a adapter 
-from django.contrib.auth import get_user_model
 
-User = get_user_model()
+class BlogTestCase(TestCase):
 
-class BlogFunctionalTests(TestCase):
     def setUp(self):
-        # Créer des utilisateurs
-        self.user1 = User.objects.create_user(username='alice', email='alice@example.com', password='pass')
-        self.user2 = User.objects.create_user(username='bob', email='bob@example.com', password='pass')
-
-        # Créer des types de réactions
-        self.like = TypeReaction.objects.create(emoji='👍', description='Like')
-        self.love = TypeReaction.objects.create(emoji='❤️', description='Love')
-
-        # Créer des tags
-        self.tag_seo = Tag.objects.create(nom='SEO')
-        self.tag_conseils = Tag.objects.create(nom='conseils')
-
-        # Créer un article
+        # Création de données de test
+        self.author = Author.objects.create(
+            name='Jean Dupuis',
+            bio='Rédacteur spécialisé en technologies et tendances numériques.',
+            profile_picture_url='https://example.com/profiles/jean.jpg'
+        )
         self.article = Article.objects.create(
-            titre='Test SEO', contenu='Contenu test', autor=self.user1
+            title='Les dernières tendances en IA',
+            content='L\'intelligence artificielle continue de progresser...',
+            author=self.author
         )
-        self.article.tags.add(self.tag_seo, self.tag_conseils)
-
-        # Créer un commentaire
-        self.comment = Commentaire.objects.create(
-            contenu='Super article', autor=self.user2, article=self.article
+        self.comment = Comment.objects.create(
+            content='Article très intéressant, merci pour l\'analyse.',
+            author=self.author,
+            article=self.article
         )
+        self.tag = Tag.objects.create(name='Technologie')
+        self.reaction_type = ReactionType.objects.create(emoji='👍', description='Like')
 
-        # Réactions
-        ReactionArticle.objects.create(user=self.user2, article=self.article, type_reaction=self.like)
-        ReactionCommentaire.objects.create(user=self.user1, commentaire=self.comment, type_reaction=self.love)
+    def test_author_creation(self):
+        """Test de la création d'un auteur"""
+        author = Author.objects.get(name='Jean Dupuis')
+        self.assertEqual(author.name, 'Jean Dupuis')
+        self.assertTrue(author.bio)
+        self.assertIsNotNone(author.join_date)
 
     def test_article_creation(self):
-        self.assertEqual(Article.objects.count(), 1)
-        self.assertEqual(self.article.titre, 'Test SEO')
-        self.assertEqual(self.article.autor, self.user1)
+        """Test de la création d'un article"""
+        article = Article.objects.get(title='Les dernières tendances en IA')
+        self.assertEqual(article.title, 'Les dernières tendances en IA')
+        self.assertEqual(article.author.name, 'Jean Dupuis')
+        self.assertTrue(article.creation_date)
 
-    def test_tags_association(self):
-        self.assertEqual(self.article.tags.count(), 2)
-        self.assertIn(self.tag_seo, self.article.tags.all())
+    def test_comment_creation(self):
+        """Test de la création d'un commentaire sur un article"""
+        comment = Comment.objects.get(content='Article très intéressant, merci pour l\'analyse.')
+        self.assertEqual(comment.article.title, 'Les dernières tendances en IA')
+        self.assertEqual(comment.author.name, 'Jean Dupuis')
 
-    def test_comment_association(self):
-        self.assertEqual(self.article.commentaire_set.count(), 1)
-        self.assertEqual(self.comment.contenu, 'Super article')
+    def test_tag_creation_and_association(self):
+        """Test de la création de tags et de l'association avec les articles"""
+        tag = Tag.objects.get(name='Technologie')
+        article_tag = ArticleTag.objects.create(article=self.article, tag=tag)
+        self.assertEqual(article_tag.article, self.article)
+        self.assertEqual(article_tag.tag, tag)
 
-    def test_reaction_article(self):
-        reactions = ReactionArticle.objects.filter(article=self.article)
-        self.assertEqual(reactions.count(), 1)
-        self.assertEqual(reactions[0].type_reaction.emoji, '👍')
+    def test_reaction_on_article(self):
+        """Test de l'ajout d'une réaction sur un article"""
+        reaction = ArticleReaction.objects.create(
+            user_id=1,
+            article=self.article,
+            reaction_type=self.reaction_type
+        )
+        self.assertEqual(reaction.reaction_type.description, 'Like')
+        self.assertEqual(reaction.article.title, 'Les dernières tendances en IA')
 
-    def test_reaction_commentaire(self):
-        reactions = ReactionCommentaire.objects.filter(commentaire=self.comment)
-        self.assertEqual(reactions.count(), 1)
-        self.assertEqual(reactions[0].type_reaction.emoji, '❤️')
+    def test_reaction_on_comment(self):
+        """Test de l'ajout d'une réaction sur un commentaire"""
+        reaction = CommentReaction.objects.create(
+            user_id=1,
+            comment=self.comment,
+            reaction_type=self.reaction_type
+        )
+        self.assertEqual(reaction.reaction_type.description, 'Like')
+        self.assertEqual(reaction.comment.content, 'Article très intéressant, merci pour l\'analyse.')
+
+    def test_role_assignment(self):
+        """Test de l'attribution de rôles à un utilisateur"""
+        role = Role.objects.create(role_name='Admin')
+        user_role = UserRole.objects.create(user_id=1, role=role)
+        self.assertEqual(user_role.role.role_name, 'Admin')
+        self.assertEqual(user_role.user_id, 1)
