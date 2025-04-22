@@ -36,5 +36,42 @@ When you need to quit the venv do: `Ctrl + D`
 
 ## Set DB connection
 
-- set all needed information in your local .env
-- check connection with `$ python manage.py dbshell`
+### Create the Database and Tables
+
+Start by importing the nextera.sql file to create the database and its tables in your MySQL Database Management System (DBMS).
+
+You’ll find the file in: nextera-back/database_assets.
+
+⚠️ You can do this easily with your DBMS using the import function. This is strongly recommended to avoid errors.
+If for any reason you must do it manually, follow these steps:
+
+- In the root folder ./nextera-back execute: `$ mysql -h localhost -P 3306 -u myuser -p`
+  Flags: host(-h value), port(-P value), user(-u value), password check(-p).
+  Values are examples here, do not copy paste them and put yours instead.
+
+- The SQL client will ask for your database password. Enter it.
+
+- Now that you are connected to your database, execute in the client: `> SOURCE ./database_assets/nextera.sql`
+  The database should now be created.
+
+### Set Up Environment Configuration
+
+- Create your .env and .env.local files at the root of the project: ./nextera-back.
+  The .env.local file overrides .env, so this is where you should put the values specific to your local configuration.
+  An example file is available at: nextera-back/database_assets.
+
+⚠️ Ask me for the 'DJANGO_SECRET_KEY', and i'll give you directly.
+
+### Test the Connection
+
+- You can test your database connection with the following command: `$ python manage.py dbshell`
+
+- If the connection is successful, you should see a message similar to this in your terminal:
+
+" Welcome to the MariaDB monitor. Commands end with ; or \g.
+Your MySQL connection id is 110
+Server version: 8.3.0 MySQL Community Server - GPL "
+
+⚠️ Don’t forget to exit with Ctrl + C.
+
+✅ Django is now connected to your local database.
