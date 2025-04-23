@@ -14,3 +14,4 @@ __pycache__/
 
 # Default DB creation
 db.sqlite3
+nextera.sql
