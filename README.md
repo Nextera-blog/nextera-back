@@ -38,9 +38,9 @@ When you need to quit the venv do: `Ctrl + D`
 
 ### Create the Database and Tables
 
-Start by importing the nextera.sql file to create the database and its tables in your MySQL Database Management System (DBMS).
+Start by importing the bdd.sql file to create the database and its tables in your MySQL Database Management System (DBMS).
 
-You’ll find the file in: nextera-back/database_assets.
+You’ll find the file in: nextera-back/nextera_back_bdd.
 
 ⚠️ You can do this easily with your DBMS using the import function. This is strongly recommended to avoid errors.
 If for any reason you must do it manually, follow these steps:
@@ -51,14 +51,14 @@ If for any reason you must do it manually, follow these steps:
 
 - The SQL client will ask for your database password. Enter it.
 
-- Now that you are connected to your database, execute in the client: `> SOURCE ./database_assets/nextera.sql`
+- Now that you are connected to your database, execute in the client: `> SOURCE ./nextera_back_bdd/bdd.sql`
   The database should now be created.
 
 ### Set Up Environment Configuration
 
 - Create your .env and .env.local files at the root of the project: ./nextera-back.
   The .env.local file overrides .env, so this is where you should put the values specific to your local configuration.
-  An example file is available at: nextera-back/database_assets.
+  An example file is available at: nextera-back/nextera_back_bdd.
 
 ⚠️ Ask me for the 'DJANGO_SECRET_KEY', and i'll give you directly.
 
