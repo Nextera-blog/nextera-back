@@ -75,3 +75,5 @@ Server version: 8.3.0 MySQL Community Server - GPL "
 ⚠️ Don’t forget to exit with Ctrl + C.
 
 ✅ Django is now connected to your local database.
+
+## Django / React Connection
