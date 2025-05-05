@@ -31,7 +31,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -49,12 +48,12 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'corsheaders.middleware.CorsMiddleware'
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
 ]
 
 ROOT_URLCONF = 'nextera_API.urls'
@@ -134,3 +133,27 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# API rest framework and React communication
+
+REST_FRAMEWORK = {
+    # Use Django's standard `django.contrib.auth` permissions,
+    # or allow read-only access for unauthenticated users.
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.AllowAny'
+    ]
+}
+
+CORS_ALLOWED_ORIGINS = [
+    os.getenv('CORS_DJANGO'),
+    os.getenv('CORS_DJANGO_ALT'),
+    os.getenv('CORS_REACT'),
+    os.getenv('CORS_REACT_ALT'),
+]
+
+CSRF_TRUSTED_ORIGINS = [
+    os.getenv('CORS_DJANGO'),
+    os.getenv('CORS_DJANGO_ALT'),
+    os.getenv('CORS_REACT'),
+    os.getenv('CORS_REACT_ALT'),
+]

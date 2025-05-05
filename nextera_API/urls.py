@@ -20,6 +20,7 @@ from nextera_API.nextera_blog import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('test/', views.test, name="test"),
     path('', views.home, name="home"),
+    path('list/', views.articles_list, name="list"),
+
 ]
