@@ -1,5 +1,5 @@
 # Django
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404, get_list_or_404
 from django.http import HttpResponse
 
 # Auth
@@ -54,8 +54,13 @@ class CustomLoginView(APIView):
 # Basic views functions
 
 @api_view(['GET'])
-@permission_classes([AllowAny])
 def articles_list(request):
-    articles = Articles.objects.all()
+    articles = get_list_or_404(Articles)
     serializer = ArticlesSerializer(articles, many=True)
+    return Response(serializer.data)
+
+@api_view(['GET'])
+def article_detail(request, id):
+    article = get_object_or_404(Articles, article_id=id)
+    serializer = ArticlesSerializer(article, many=False)
     return Response(serializer.data)

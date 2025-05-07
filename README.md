@@ -76,4 +76,9 @@ Server version: 8.3.0 MySQL Community Server - GPL "
 
 ✅ Django is now connected to your local database.
 
+You can create a super user with `$ python manage.py createsuperuser`.
+Keep in mind that username is used for admin interface connection while email is used frontside.
+
 ## Django / React Connection
+
+Back and front connection is describe by CORS env var. Set them to your own servers locations and port.

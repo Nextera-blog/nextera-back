@@ -13,11 +13,18 @@ Class-based views
 Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
-"""
-from django.contrib import admin
+# """
+# Base
 from django.urls import path
+from django.contrib import admin
+
+# Tokens 
 from rest_framework_simplejwt.views import TokenRefreshView
+
+# Views
 from nextera_API.nextera_blog import views
+
+# Classes views
 from nextera_API.nextera_blog.views import CustomLoginView
 
 urlpatterns = [
@@ -27,5 +34,6 @@ urlpatterns = [
     # Admin
     path('admin/', admin.site.urls),
     # Urls
-    path('list/', views.articles_list, name="list"),
+    path('articles/', views.articles_list, name="articles_list"),
+    path('articles/<int:id>/', views.article_detail, name="article_details"),
 ]
