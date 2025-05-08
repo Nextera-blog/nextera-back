@@ -33,7 +33,10 @@ urlpatterns = [
     path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     # Admin
     path('admin/', admin.site.urls),
+    # Users
+    path('users/register/', views.register_user, name='register'),
+    path('users/current/', views.current_user, name='current_user'),
     # Urls
-    path('articles/', views.articles_list, name="articles_list"),
-    path('articles/<int:id>/', views.article_detail, name="article_details"),
+    path('articles/', views.articles_list, name='articles_list'),
+    path('articles/<int:id>/', views.article_detail, name='article_details'),
 ]

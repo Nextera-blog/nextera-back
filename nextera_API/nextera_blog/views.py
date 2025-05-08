@@ -1,14 +1,10 @@
 # Django
-from django.shortcuts import render, get_object_or_404, get_list_or_404
-from django.http import HttpResponse
+from django.shortcuts import get_object_or_404, get_list_or_404
 
 # Auth
 from django.contrib.auth import authenticate, get_user_model
 from rest_framework_simplejwt.tokens import RefreshToken
-from rest_framework.permissions import AllowAny
-
-# Base
-import json
+from rest_framework.permissions import AllowAny, IsAuthenticated
 
 # API framework
 from rest_framework.views import APIView
@@ -20,12 +16,13 @@ from rest_framework import status
 from .models import Articles
 
 # Serializers
-from .serializers import ArticlesSerializer
-
-# Special views functions as classes
+from .serializers import ArticlesSerializer, UserSerializer, CurrentUserSerializer
 
 # Django auth_user abstract class
 User = get_user_model()
+
+
+# User views
 
 class CustomLoginView(APIView):
     # Set permission to any for users to be able to login
@@ -50,8 +47,23 @@ class CustomLoginView(APIView):
             })
         return Response({"error": "Mot de passe invalide"}, status=status.HTTP_401_UNAUTHORIZED)
 
+@api_view(['POST'])
+@permission_classes([AllowAny])
+def register_user(request):
+    serializer = UserSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-# Basic views functions
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def current_user(request):
+    serializer = CurrentUserSerializer(request.user)
+    return Response(serializer.data)
+
+
+#  Article views
 
 @api_view(['GET'])
 def articles_list(request):
@@ -64,3 +76,5 @@ def article_detail(request, id):
     article = get_object_or_404(Articles, article_id=id)
     serializer = ArticlesSerializer(article, many=False)
     return Response(serializer.data)
+
+
