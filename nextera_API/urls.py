@@ -25,7 +25,7 @@ from rest_framework_simplejwt.views import TokenRefreshView
 from nextera_API.nextera_blog import views
 
 # Classes views
-from nextera_API.nextera_blog.views import CustomLoginView
+from nextera_API.nextera_blog.views import CustomLoginView, CreateArticleView
 
 urlpatterns = [
     # Auth
@@ -38,5 +38,6 @@ urlpatterns = [
     path('users/current/', views.current_user, name='current_user'),
     # Urls
     path('articles/', views.articles_list, name='articles_list'),
-    path('articles/<int:id>/', views.article_detail, name='article_details'),
+    path('articles/<int:id>/', views.article_detail, name='articles_details'),
+    path('articles/create/', CreateArticleView.as_view(), name='articles_create')
 ]

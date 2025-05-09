@@ -1,5 +1,6 @@
 # Django
 from django.shortcuts import get_object_or_404, get_list_or_404
+from django.utils import timezone
 
 # Auth
 from django.contrib.auth import authenticate, get_user_model
@@ -13,10 +14,10 @@ from rest_framework.response import Response
 from rest_framework import status
 
 # Models
-from .models import Articles
+from .models import Articles, Roles
 
 # Serializers
-from .serializers import ArticlesSerializer, UserSerializer, CurrentUserSerializer
+from .serializers import ArticlesReadSerializer, ArticlesWriteSerializer, UserSerializer, CurrentUserSerializer
 
 # Django auth_user abstract class
 User = get_user_model()
@@ -68,13 +69,30 @@ def current_user(request):
 @api_view(['GET'])
 def articles_list(request):
     articles = get_list_or_404(Articles)
-    serializer = ArticlesSerializer(articles, many=True)
+    serializer = ArticlesReadSerializer(articles, many=True)
     return Response(serializer.data)
 
 @api_view(['GET'])
 def article_detail(request, id):
     article = get_object_or_404(Articles, article_id=id)
-    serializer = ArticlesSerializer(article, many=False)
+    serializer = ArticlesReadSerializer(article, many=False)
     return Response(serializer.data)
 
+class CreateArticleView(APIView):
+    permission_classes = [IsAuthenticated]
 
+    def post(self, request):
+        # Permissions check
+        if not request.user.is_superuser:
+            return Response({"message": "Accès refusé. Droits insuffisants."}, status=403)
+
+        data = request.data
+        data['author'] = request.user.id
+        data['creation_date'] = timezone.now()
+
+        serializer = ArticlesWriteSerializer(data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

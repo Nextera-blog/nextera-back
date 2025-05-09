@@ -42,11 +42,18 @@ class AuthorsSerializer(serializers.ModelSerializer):
 
 # Articles
 
-class ArticlesSerializer(serializers.ModelSerializer):
+class ArticlesReadSerializer(serializers.ModelSerializer):
     # Relations (use the model field name to set serialization properly)
-    author = AuthorsSerializer();
+    author = CurrentUserSerializer(many=False)
     
     class Meta:
         model = Articles
         fields = '__all__'
 
+class ArticlesWriteSerializer(serializers.ModelSerializer):
+    # Write only need primary keys
+    author = serializers.PrimaryKeyRelatedField(queryset=User.objects.all())
+    
+    class Meta:
+        model = Articles
+        fields = '__all__'
