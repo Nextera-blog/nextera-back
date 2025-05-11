@@ -7,7 +7,8 @@
 # Feel free to rename the models, but don't rename db_table values or field names.
 from django.db import models
 from django.contrib.auth.models import User
-from nextera_API.nextera_blog.models import Articles, ReactionTypes
+from .articles import Articles
+from .reaction_types import ReactionTypes
 
 class ArticleReactions(models.Model):
     pk = models.CompositePrimaryKey('user', 'article')
