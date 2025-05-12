@@ -17,7 +17,7 @@ from rest_framework import status
 from .models import Articles, Roles
 
 # Serializers
-from .serializers import ArticlesReadSerializer, ArticlesWriteSerializer, UserSerializer, CurrentUserSerializer
+from .serializers import ArticlesReadSerializer, ArticlesWriteSerializer, UserSerializer, CurrentUserSerializer, TestSerializer
 
 # Django auth_user abstract class
 User = get_user_model()
@@ -46,7 +46,7 @@ class CustomLoginView(APIView):
                 'refresh': str(refresh),
                 'access': str(refresh.access_token),
             })
-        return Response({"error": "Mot de passe invalide"}, status=status.HTTP_401_UNAUTHORIZED)
+        return Response({"error": "Identifiants invalides"}, status=status.HTTP_401_UNAUTHORIZED)
 
 @api_view(['POST'])
 @permission_classes([AllowAny])
@@ -96,3 +96,13 @@ class CreateArticleView(APIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['GET'])
+def test(request):
+    try:
+        user = User.objects.get(id=3)
+    except User.DoesNotExist:
+        return Response({'detail': 'Utilisateur non trouvé.'}, status=404)
+
+    serializer = UserSerializer(user)
+    return Response(serializer.data)

@@ -57,3 +57,22 @@ class ArticlesWriteSerializer(serializers.ModelSerializer):
     class Meta:
         model = Articles
         fields = '__all__'
+
+class AuthorsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Authors
+        fields = '__all__'
+
+class RolesSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Authors
+        fields = '__all__'
+
+class TestSerializer(serializers.ModelSerializer):
+
+    author = AuthorsSerializer(many=False)
+    role = RolesSerializer(many=False)
+
+    class Meta:
+        model = User
+        fields = ['id', 'username', 'first_name', 'last_name', 'email', 'author', 'role']
