@@ -18,8 +18,8 @@ from dotenv import load_dotenv
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # DotEnv loading
-load_dotenv()
-load_dotenv('.env.local', override=True)
+load_dotenv(override=True, encoding='utf-8')
+load_dotenv('.env.local', override=True, encoding='utf-8')
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
