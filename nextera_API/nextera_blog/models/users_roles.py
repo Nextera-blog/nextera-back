@@ -4,7 +4,7 @@ from .roles import Roles
 
 class UsersRoles(models.Model):
     # pk = models.CompositePrimaryKey('user_id', 'role_id')
-    user = models.OneToOneField(User, on_delete=models.CASCADE, blank=False, null=False)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, blank=False, null=False, related_name='user_role')
     role = models.ForeignKey(Roles, on_delete=models.CASCADE, blank=False, null=False)
 
     class Meta:

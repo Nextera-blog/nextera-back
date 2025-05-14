@@ -17,7 +17,7 @@ from rest_framework import status
 from .models import Articles, Roles
 
 # Serializers
-from .serializers import ArticlesReadSerializer, ArticlesWriteSerializer, UserSerializer, CurrentUserSerializer, TestSerializer
+from nextera_API.nextera_blog.serializers import *
 
 # Django auth_user abstract class
 User = get_user_model()
@@ -104,5 +104,5 @@ def test(request):
     except User.DoesNotExist:
         return Response({'detail': 'Utilisateur non trouvé.'}, status=404)
 
-    serializer = UserSerializer(user)
+    serializer = TestSerializer(user)
     return Response(serializer.data)
