@@ -59,13 +59,21 @@ class BaseReactionsSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+# Join table between users and roles
+
+class BaseUsersRolesSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UsersRoles
+        fields = '__all__'
+
+
 # Test purpose only
 
-class TestSerializer(serializers.ModelSerializer):
+# class TestSerializer(serializers.ModelSerializer):
 
-    author = BaseAuthorsSerializer(source='author_profile', many=False)
-    role = BaseRolesSerializer(source='user_role.role' ,many=False)
+#     author = BaseAuthorsSerializer(source='author_profile', many=False)
+#     role = BaseRolesSerializer(source='user_role.role' ,many=False)
 
-    class Meta:
-        model = User
-        fields = ['id', 'username', 'first_name', 'last_name', 'email', 'author', 'role']
+#     class Meta:
+#         model = User
+#         fields = ['id', 'username', 'first_name', 'last_name', 'email', 'author', 'role']

@@ -41,6 +41,6 @@ urlpatterns = [
     path('articles/<int:id>/', views.article_detail, name='articles_details'),
     path('articles/create/', CreateArticleView.as_view(), name='articles_create'),
     # Test only
-    path('test/', views.test, name='test')
+    # path('test/', views.test, name='test')
 
 ]

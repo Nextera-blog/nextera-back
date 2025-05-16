@@ -31,9 +31,9 @@ class UserSerializer(serializers.ModelSerializer):
         )
     
 class CurrentUserSerializer(serializers.ModelSerializer):
-    author_profile = BaseAuthorsSerializer(source='author_profile', many=False)
+    author = BaseAuthorsSerializer(source='author_profile', many=False)
     role = BaseRolesSerializer(source='user_role.role' ,many=False)
 
     class Meta:
         model = User
-        fields = ['id', 'username', 'first_name', 'last_name', 'email', 'author_profile', 'role']
+        fields = ['id', 'username', 'first_name', 'last_name', 'email', 'author', 'role']

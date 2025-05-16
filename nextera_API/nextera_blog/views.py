@@ -12,6 +12,7 @@ from rest_framework.views import APIView
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework.exceptions import NotFound
 
 # Models
 from .models import Articles, Roles
@@ -51,9 +52,16 @@ class CustomLoginView(APIView):
 @api_view(['POST'])
 @permission_classes([AllowAny])
 def register_user(request):
+    try:
+        visitor_role = Roles.objects.get(role_name='Visitor')
+    except Roles.DoesNotExist:
+        raise NotFound(detail="Un problème est survenu lors de la création du compte")
+    
     serializer = UserSerializer(data=request.data)
+    
     if serializer.is_valid():
-        serializer.save()
+        new_user = serializer.save()
+        UsersRoles.objects.create(user=new_user, role=visitor_role)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -97,12 +105,12 @@ class CreateArticleView(APIView):
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-@api_view(['GET'])
-def test(request):
-    try:
-        user = User.objects.get(id=3)
-    except User.DoesNotExist:
-        return Response({'detail': 'Utilisateur non trouvé.'}, status=404)
+# @api_view(['GET'])
+# def test(request):
+#     try:
+#         user = User.objects.get(id=3)
+#     except User.DoesNotExist:
+#         return Response({'detail': 'Utilisateur non trouvé.'}, status=404)
 
-    serializer = TestSerializer(user)
-    return Response(serializer.data)
+#     serializer = TestSerializer(user)
+#     return Response(serializer.data)
