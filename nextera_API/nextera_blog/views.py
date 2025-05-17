@@ -105,12 +105,12 @@ class CreateArticleView(APIView):
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-# @api_view(['GET'])
-# def test(request):
-#     try:
-#         user = User.objects.get(id=3)
-#     except User.DoesNotExist:
-#         return Response({'detail': 'Utilisateur non trouvé.'}, status=404)
+@api_view(['GET'])
+def test(request):
+    try:
+        user = User.objects.get(id=7)
+    except User.DoesNotExist:
+        return Response({'detail': 'Utilisateur non trouvé.'}, status=404)
 
-#     serializer = TestSerializer(user)
-#     return Response(serializer.data)
+    serializer = TestSerializer(user)
+    return Response(serializer.data)

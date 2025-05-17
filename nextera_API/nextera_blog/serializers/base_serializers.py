@@ -69,11 +69,11 @@ class BaseUsersRolesSerializer(serializers.ModelSerializer):
 
 # Test purpose only
 
-# class TestSerializer(serializers.ModelSerializer):
+class TestSerializer(serializers.ModelSerializer):
 
-#     author = BaseAuthorsSerializer(source='author_profile', many=False)
-#     role = BaseRolesSerializer(source='user_role.role' ,many=False)
+    author = BaseAuthorsSerializer(source='author_profile', many=False)
+    role = BaseRolesSerializer(source='user_role.role' ,many=False)
 
-#     class Meta:
-#         model = User
-#         fields = ['id', 'username', 'first_name', 'last_name', 'email', 'author', 'role']
+    class Meta:
+        model = User
+        fields = ['id', 'username', 'first_name', 'last_name', 'email', 'author', 'role']

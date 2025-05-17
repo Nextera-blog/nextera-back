@@ -90,7 +90,9 @@ DATABASES = {
         'HOST': os.getenv('DB_HOST'),
         'PORT': os.getenv('DB_PORT'),
         'OPTIONS': {
-            'sql_mode': 'STRICT_TRANS_TABLES'
+            'sql_mode': 'STRICT_TRANS_TABLES',
+            'charset': 'utf8mb4',
+            'use_unicode': True,
         },
     }
 }

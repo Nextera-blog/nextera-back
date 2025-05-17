@@ -36,11 +36,11 @@ urlpatterns = [
     # Users
     path('users/register/', views.register_user, name='register'),
     path('users/current/', views.current_user, name='current_user'),
-    # Urls
+    # Articles
     path('articles/', views.articles_list, name='articles_list'),
     path('articles/<int:id>/', views.article_detail, name='articles_details'),
     path('articles/create/', CreateArticleView.as_view(), name='articles_create'),
     # Test only
-    # path('test/', views.test, name='test')
+    path('test/', views.test, name='test')
 
 ]
