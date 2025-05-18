@@ -3,10 +3,19 @@
 
 from nextera_API.nextera_blog.serializers import *
 
-
-class ArticlesReadSerializer(serializers.ModelSerializer):
+class ArticlesListSerializer(serializers.ModelSerializer):
     # Relations (use the model field name to set serialization properly)
-    author = CurrentUserSerializer(many=False)
+    author = BaseAuthorsSerializer(many=False)
+    tags = BaseTagsSerializer(many=True)
+
+    class Meta:
+        model = Articles
+        fields = '__all__'
+
+class ArticlesDetailSerializer(serializers.ModelSerializer):
+    # Relations (use the model field name to set serialization properly)
+    author = BaseAuthorsSerializer(many=False)
+    tags = BaseTagsSerializer(many=True)
     
     class Meta:
         model = Articles
@@ -14,7 +23,7 @@ class ArticlesReadSerializer(serializers.ModelSerializer):
 
 class ArticlesWriteSerializer(serializers.ModelSerializer):
     # Write only need primary keys
-    author = serializers.PrimaryKeyRelatedField(queryset=User.objects.all())
+    author = serializers.PrimaryKeyRelatedField(queryset=Authors.objects.all())
     
     class Meta:
         model = Articles

@@ -76,14 +76,14 @@ def current_user(request):
 
 @api_view(['GET'])
 def articles_list(request):
-    articles = get_list_or_404(Articles)
-    serializer = ArticlesReadSerializer(articles, many=True)
+    articles = Articles.objects.all()
+    serializer = ArticlesListSerializer(articles, many=True)
     return Response(serializer.data)
 
 @api_view(['GET'])
 def article_detail(request, id):
     article = get_object_or_404(Articles, article_id=id)
-    serializer = ArticlesReadSerializer(article, many=False)
+    serializer = ArticlesDetailSerializer(article, many=False)
     return Response(serializer.data)
 
 class CreateArticleView(APIView):
