@@ -28,3 +28,9 @@ class ArticlesWriteSerializer(serializers.ModelSerializer):
     class Meta:
         model = Articles
         fields = '__all__'
+
+class  ArticlesMinimalSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Articles
+        fields = ['article_id', 'title']

@@ -40,7 +40,9 @@ urlpatterns = [
     path('articles/', views.articles_list, name='articles_list'),
     path('articles/<int:id>/', views.article_detail, name='articles_details'),
     path('articles/create/', CreateArticleView.as_view(), name='articles_create'),
+    # Authors
+    path('authors/', views.authors_list, name = 'authors_list'),
+    path('authors/<int:id>/', views.author_detail, name = 'author_details'),
     # Test only
     path('test/', views.test, name='test')
-
 ]

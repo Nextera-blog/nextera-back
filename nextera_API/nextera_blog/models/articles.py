@@ -9,8 +9,8 @@ class Articles(models.Model):
     content = models.TextField(blank=False, null=False)
     creation_date = models.DateTimeField(blank=False, null=False, auto_now_add=True)
     update_date = models.DateTimeField(blank=False, null=False, auto_now=True)
-    author = models.ForeignKey(Authors, on_delete=models.CASCADE) # change to anonym user if deleted
-    tags = models.ManyToManyField(Tags, through='ArticleTags', related_name='articles')
+    author = models.ForeignKey(Authors, on_delete=models.CASCADE, related_name='articles_written')
+    tags = models.ManyToManyField(Tags, through='ArticleTags', related_name='articles_tagged')
 
     class Meta:
         managed = True
