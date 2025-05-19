@@ -105,12 +105,29 @@ class CreateArticleView(APIView):
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+
+# Authors
+
+@api_view(['GET'])
+def authors_list(request):
+    authors = Authors.objects.all()
+    serializer = BaseAuthorsSerializer(authors, many=True)
+    return Response(serializer.data)
+
+@api_view(['GET'])
+def author_detail(request, id):
+    author = get_object_or_404(Authors, user = id)
+    serializer = AuthorsDetailSerializer(author)
+    return Response(serializer.data)
+
+
+
 @api_view(['GET'])
 def test(request):
     try:
-        user = User.objects.get(id=7)
-    except User.DoesNotExist:
-        return Response({'detail': 'Utilisateur non trouvé.'}, status=404)
+        author = Authors.objects.get(user=1)
+    except Authors.DoesNotExist:
+        return Response({'detail': 'auteur non trouvé.'}, status=404)
 
-    serializer = TestSerializer(user)
+    serializer = AuthorsDetailSerializer(author)
     return Response(serializer.data)
