@@ -17,7 +17,7 @@ from dotenv import load_dotenv
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# DotEnv loading
+# DotEnv loading (must override to avoid phantom vars)
 load_dotenv(override=True, encoding='utf-8')
 load_dotenv('.env.local', override=True, encoding='utf-8')
 
@@ -90,7 +90,9 @@ DATABASES = {
         'HOST': os.getenv('DB_HOST'),
         'PORT': os.getenv('DB_PORT'),
         'OPTIONS': {
-            'sql_mode': 'STRICT_TRANS_TABLES'
+            'sql_mode': 'STRICT_TRANS_TABLES',
+            'charset': 'utf8mb4',
+            'use_unicode': True,
         },
     }
 }

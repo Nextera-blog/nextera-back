@@ -1,10 +1,14 @@
-from django.contrib.auth.models import User
+# Import django serializers, models, auth_user
+# Mandatory here
+
+from nextera_API.nextera_blog.serializers import *
+
+# Specific imports
+
 from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError as DjangoValidationError
-from rest_framework import serializers
-from .models import *
 
-# User
+# Django native auth_user (User model)
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -27,33 +31,9 @@ class UserSerializer(serializers.ModelSerializer):
         )
     
 class CurrentUserSerializer(serializers.ModelSerializer):
+    author = BaseAuthorsSerializer(source='author_profile', many=False)
+    role = BaseRolesSerializer(source='user_role.role' ,many=False)
+
     class Meta:
         model = User
-        fields = ['id', 'username', 'first_name', 'last_name', 'email']
-
-
-# Authors
-
-class AuthorsSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Authors
-        fields = '__all__'
-
-
-# Articles
-
-class ArticlesReadSerializer(serializers.ModelSerializer):
-    # Relations (use the model field name to set serialization properly)
-    author = CurrentUserSerializer(many=False)
-    
-    class Meta:
-        model = Articles
-        fields = '__all__'
-
-class ArticlesWriteSerializer(serializers.ModelSerializer):
-    # Write only need primary keys
-    author = serializers.PrimaryKeyRelatedField(queryset=User.objects.all())
-    
-    class Meta:
-        model = Articles
-        fields = '__all__'
+        fields = ['id', 'username', 'first_name', 'last_name', 'email', 'author', 'role']
