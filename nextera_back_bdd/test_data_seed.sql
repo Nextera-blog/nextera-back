@@ -360,6 +360,86 @@ VALUES (
         '2025-02-17 09:45:41.767436'
     );
 
+INSERT INTO
+    authors (
+        user_id,
+        name,
+        bio,
+        profile_picture_url,
+        join_date
+    )
+VALUES (
+        6,
+        'Chloé Morel',
+        'Imaginer chanson horloge liberté valise vaste reposer lentement.',
+        NULL,
+        '2023-07-12 10:15:22.123456'
+    );
+
+INSERT INTO
+    authors (
+        user_id,
+        name,
+        bio,
+        profile_picture_url,
+        join_date
+    )
+VALUES (
+        7,
+        'Damien Lefèvre',
+        'Expliquer monde caresser vérité soudainement lune respect porter.',
+        NULL,
+        '2022-09-05 14:30:11.654321'
+    );
+
+INSERT INTO
+    authors (
+        user_id,
+        name,
+        bio,
+        profile_picture_url,
+        join_date
+    )
+VALUES (
+        8,
+        'Sophie Dubois',
+        'Tourner silence papier feuillage destination éclater tranquille.',
+        NULL,
+        '2023-12-01 08:00:00.000789'
+    );
+
+INSERT INTO
+    authors (
+        user_id,
+        name,
+        bio,
+        profile_picture_url,
+        join_date
+    )
+VALUES (
+        9,
+        'Hugo Renard',
+        'Bousculer souffle présence danse éternel fragile lever.',
+        NULL,
+        '2024-01-18 11:45:33.112233'
+    );
+
+INSERT INTO
+    authors (
+        user_id,
+        name,
+        bio,
+        profile_picture_url,
+        join_date
+    )
+VALUES (
+        10,
+        'Camille Perrot',
+        'Apparence promesse descendre jardin pensée simple vérité.',
+        NULL,
+        '2023-05-30 16:20:44.445566'
+    );
+
 -- Assignation des rôles aux utilisateurs dans users_roles
 INSERT INTO
     users_roles (id, role_id, user_id)

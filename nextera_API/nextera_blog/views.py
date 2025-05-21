@@ -62,6 +62,7 @@ def register_user(request):
     if serializer.is_valid():
         new_user = serializer.save()
         UsersRoles.objects.create(user=new_user, role=visitor_role)
+        Authors.objects.create(user=new_user, name=new_user.username)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
