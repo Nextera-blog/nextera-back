@@ -753,6 +753,7 @@ VALUES (
     );
 
 -- Insertion des commentaires dans comments
+-- Commentaires racines
 INSERT INTO
     comments (
         comment_id,
@@ -765,90 +766,10 @@ INSERT INTO
     )
 VALUES (
         1,
-        'Reculer accomplir supporter grandir jeter prononcer bonheur essayer santé.',
-        '2025-02-25 09:45:41.769034',
-        '2025-02-25 09:45:41.769034',
-        7,
-        NULL,
-        6
-    );
-
-INSERT INTO
-    comments (
-        comment_id,
-        content,
-        creation_date,
-        update_date,
-        article_id,
-        parent_comment_id,
-        user_id
-    )
-VALUES (
-        2,
-        'Chance occuper dehors mer décrire relation dire.',
-        '2024-12-26 09:45:41.769077',
-        '2024-12-26 09:45:41.769077',
-        3,
-        NULL,
-        4
-    );
-
-INSERT INTO
-    comments (
-        comment_id,
-        content,
-        creation_date,
-        update_date,
-        article_id,
-        parent_comment_id,
-        user_id
-    )
-VALUES (
-        3,
-        'Fatiguer drame ton passage tu etc manquer suite dire.',
-        '2025-03-26 09:45:41.769111',
-        '2025-03-26 09:45:41.769111',
-        2,
-        2,
-        7
-    );
-
-INSERT INTO
-    comments (
-        comment_id,
-        content,
-        creation_date,
-        update_date,
-        article_id,
-        parent_comment_id,
-        user_id
-    )
-VALUES (
-        4,
-        'Certes battre appartement pouvoir mort.',
-        '2024-11-22 09:45:41.769141',
-        '2024-11-22 09:45:41.769141',
-        10,
-        3,
-        5
-    );
-
-INSERT INTO
-    comments (
-        comment_id,
-        content,
-        creation_date,
-        update_date,
-        article_id,
-        parent_comment_id,
-        user_id
-    )
-VALUES (
-        5,
-        'Commencement art nord ouvrir dernier signer prochain midi ancien.',
-        '2024-09-24 09:45:41.769174',
-        '2024-09-24 09:45:41.769174',
-        9,
+        'Texte simulé pour test.',
+        '2025-05-21 10:00:00',
+        '2025-05-21 10:00:00',
+        1,
         NULL,
         2
     );
@@ -864,11 +785,11 @@ INSERT INTO
         user_id
     )
 VALUES (
-        6,
-        'Dessiner autre terreur faible sang un dégager dessus.',
-        '2025-04-07 09:45:41.769222',
-        '2025-04-07 09:45:41.769222',
-        9,
+        2,
+        'Bonne remarque sur ce sujet.',
+        '2025-05-21 09:50:00',
+        '2025-05-21 09:50:00',
+        1,
         NULL,
         5
     );
@@ -884,73 +805,13 @@ INSERT INTO
         user_id
     )
 VALUES (
-        7,
-        'Afin De près trouver mine.',
-        '2024-07-26 09:45:41.769249',
-        '2024-07-26 09:45:41.769249',
-        4,
-        6,
-        2
-    );
-
-INSERT INTO
-    comments (
-        comment_id,
-        content,
-        creation_date,
-        update_date,
-        article_id,
-        parent_comment_id,
-        user_id
-    )
-VALUES (
-        8,
-        'Monter employer beau mourir visite leur détacher.',
-        '2025-01-21 09:45:41.769280',
-        '2025-01-21 09:45:41.769280',
-        5,
-        7,
-        2
-    );
-
-INSERT INTO
-    comments (
-        comment_id,
-        content,
-        creation_date,
-        update_date,
-        article_id,
-        parent_comment_id,
-        user_id
-    )
-VALUES (
-        9,
-        'Tenter centre compagnie rire effacer valoir lever content construire.',
-        '2025-03-27 09:45:41.769311',
-        '2025-03-27 09:45:41.769311',
-        7,
-        NULL,
-        5
-    );
-
-INSERT INTO
-    comments (
-        comment_id,
-        content,
-        creation_date,
-        update_date,
-        article_id,
-        parent_comment_id,
-        user_id
-    )
-VALUES (
-        10,
-        'Circonstance aide ici réussir humide complètement.',
-        '2024-11-12 09:45:41.769339',
-        '2024-11-12 09:45:41.769339',
         3,
+        'Merci pour cette précision.',
+        '2025-05-21 09:40:00',
+        '2025-05-21 09:40:00',
+        2,
         NULL,
-        6
+        3
     );
 
 INSERT INTO
@@ -964,71 +825,11 @@ INSERT INTO
         user_id
     )
 VALUES (
-        11,
-        'Nerveux taille trembler battre vide autre trouver émotion que dormir.',
-        '2025-01-30 09:45:41.769367',
-        '2025-01-30 09:45:41.769367',
-        5,
-        9,
-        2
-    );
-
-INSERT INTO
-    comments (
-        comment_id,
-        content,
-        creation_date,
-        update_date,
-        article_id,
-        parent_comment_id,
-        user_id
-    )
-VALUES (
-        12,
-        'Soirée remettre accrocher maison placer plaisir.',
-        '2025-01-12 09:45:41.769394',
-        '2025-01-12 09:45:41.769394',
-        3,
-        NULL,
-        8
-    );
-
-INSERT INTO
-    comments (
-        comment_id,
-        content,
-        creation_date,
-        update_date,
-        article_id,
-        parent_comment_id,
-        user_id
-    )
-VALUES (
-        13,
-        'Apporter père angoisse réussir fleur certes le plus frapper forêt.',
-        '2024-12-30 09:45:41.769422',
-        '2024-12-30 09:45:41.769422',
-        9,
-        NULL,
-        4
-    );
-
-INSERT INTO
-    comments (
-        comment_id,
-        content,
-        creation_date,
-        update_date,
-        article_id,
-        parent_comment_id,
-        user_id
-    )
-VALUES (
-        14,
-        'Sérieux si différent écarter éviter rare devant lire.',
-        '2025-04-19 09:45:41.769467',
-        '2025-04-19 09:45:41.769467',
         4,
+        'Exactement ce que je pensais.',
+        '2025-05-21 09:30:00',
+        '2025-05-21 09:30:00',
+        2,
         NULL,
         1
     );
@@ -1044,13 +845,215 @@ INSERT INTO
         user_id
     )
 VALUES (
-        15,
-        'Train plonger il conscience sauvage.',
-        '2024-10-24 09:45:41.769495',
-        '2024-10-24 09:45:41.769495',
         5,
-        10,
+        'Merci pour le partage de ce point de vue.',
+        '2025-05-21 09:20:00',
+        '2025-05-21 09:20:00',
+        3,
+        NULL,
+        4
+    );
+
+INSERT INTO
+    comments (
+        comment_id,
+        content,
+        creation_date,
+        update_date,
+        article_id,
+        parent_comment_id,
+        user_id
+    )
+VALUES (
+        6,
+        'C’est une bonne analyse.',
+        '2025-05-21 09:10:00',
+        '2025-05-21 09:10:00',
+        3,
+        NULL,
+        1
+    );
+
+-- Réponses aux racines
+INSERT INTO
+    comments (
+        comment_id,
+        content,
+        creation_date,
+        update_date,
+        article_id,
+        parent_comment_id,
+        user_id
+    )
+VALUES (
+        7,
+        'Bonne remarque sur ce sujet.',
+        '2025-05-21 09:05:00',
+        '2025-05-21 09:05:00',
+        1,
+        1,
+        3
+    );
+
+INSERT INTO
+    comments (
+        comment_id,
+        content,
+        creation_date,
+        update_date,
+        article_id,
+        parent_comment_id,
+        user_id
+    )
+VALUES (
+        8,
+        'Merci pour cette précision.',
+        '2025-05-21 09:00:00',
+        '2025-05-21 09:00:00',
+        1,
+        1,
+        5
+    );
+
+INSERT INTO
+    comments (
+        comment_id,
+        content,
+        creation_date,
+        update_date,
+        article_id,
+        parent_comment_id,
+        user_id
+    )
+VALUES (
+        9,
+        'Peux-tu expliquer davantage ?',
+        '2025-05-21 08:55:00',
+        '2025-05-21 08:55:00',
+        1,
+        2,
         2
+    );
+
+INSERT INTO
+    comments (
+        comment_id,
+        content,
+        creation_date,
+        update_date,
+        article_id,
+        parent_comment_id,
+        user_id
+    )
+VALUES (
+        10,
+        'Réponse intéressante à approfondir.',
+        '2025-05-21 08:50:00',
+        '2025-05-21 08:50:00',
+        2,
+        3,
+        3
+    );
+
+INSERT INTO
+    comments (
+        comment_id,
+        content,
+        creation_date,
+        update_date,
+        article_id,
+        parent_comment_id,
+        user_id
+    )
+VALUES (
+        11,
+        'C’est une bonne analyse.',
+        '2025-05-21 08:45:00',
+        '2025-05-21 08:45:00',
+        2,
+        3,
+        1
+    );
+
+INSERT INTO
+    comments (
+        comment_id,
+        content,
+        creation_date,
+        update_date,
+        article_id,
+        parent_comment_id,
+        user_id
+    )
+VALUES (
+        12,
+        'Texte simulé pour test.',
+        '2025-05-21 08:40:00',
+        '2025-05-21 08:40:00',
+        2,
+        4,
+        4
+    );
+
+INSERT INTO
+    comments (
+        comment_id,
+        content,
+        creation_date,
+        update_date,
+        article_id,
+        parent_comment_id,
+        user_id
+    )
+VALUES (
+        13,
+        'Texte simulé pour test.',
+        '2025-05-21 08:35:00',
+        '2025-05-21 08:35:00',
+        3,
+        5,
+        2
+    );
+
+INSERT INTO
+    comments (
+        comment_id,
+        content,
+        creation_date,
+        update_date,
+        article_id,
+        parent_comment_id,
+        user_id
+    )
+VALUES (
+        14,
+        'Peux-tu expliquer davantage ?',
+        '2025-05-21 08:30:00',
+        '2025-05-21 08:30:00',
+        3,
+        6,
+        3
+    );
+
+-- Petits-enfants (niveau 3)
+INSERT INTO
+    comments (
+        comment_id,
+        content,
+        creation_date,
+        update_date,
+        article_id,
+        parent_comment_id,
+        user_id
+    )
+VALUES (
+        15,
+        'Bonne remarque sur ce sujet.',
+        '2025-05-21 08:25:00',
+        '2025-05-21 08:25:00',
+        1,
+        7,
+        4
     );
 
 INSERT INTO
@@ -1065,12 +1068,12 @@ INSERT INTO
     )
 VALUES (
         16,
-        'Précis métier naturel déjà partager arriver dont impossible vert abandonner oncle.',
-        '2024-12-07 09:45:41.769523',
-        '2024-12-07 09:45:41.769523',
-        4,
-        NULL,
-        8
+        'Exactement ce que je pensais.',
+        '2025-05-21 08:20:00',
+        '2025-05-21 08:20:00',
+        2,
+        10,
+        5
     );
 
 INSERT INTO
@@ -1085,14 +1088,15 @@ INSERT INTO
     )
 VALUES (
         17,
-        'Présence diriger poursuivre revoir parti.',
-        '2024-09-25 09:45:41.769621',
-        '2024-09-25 09:45:41.769621',
+        'Merci pour le partage de ce point de vue.',
+        '2025-05-21 08:15:00',
+        '2025-05-21 08:15:00',
         3,
-        8,
-        5
+        13,
+        2
     );
 
+-- Autres enfants
 INSERT INTO
     comments (
         comment_id,
@@ -1105,12 +1109,12 @@ INSERT INTO
     )
 VALUES (
         18,
-        'Ton même passion instant échapper poursuivre muet.',
-        '2024-08-03 09:45:41.769670',
-        '2024-08-03 09:45:41.769670',
-        9,
-        NULL,
-        5
+        'Bonne remarque sur ce sujet.',
+        '2025-05-21 08:10:00',
+        '2025-05-21 08:10:00',
+        1,
+        2,
+        1
     );
 
 INSERT INTO
@@ -1125,12 +1129,12 @@ INSERT INTO
     )
 VALUES (
         19,
-        'Endormir assez retour ensemble coup nous y comme sommeil.',
-        '2024-07-23 09:45:41.769702',
-        '2024-07-23 09:45:41.769702',
-        7,
-        5,
-        6
+        'Réponse intéressante à approfondir.',
+        '2025-05-21 08:05:00',
+        '2025-05-21 08:05:00',
+        3,
+        6,
+        4
     );
 
 INSERT INTO
@@ -1145,12 +1149,12 @@ INSERT INTO
     )
 VALUES (
         20,
-        'Front étouffer terminer écrire banc aller douleur.',
-        '2024-08-30 09:45:41.769732',
-        '2024-08-30 09:45:41.769732',
-        8,
-        4,
-        2
+        'Texte simulé pour test.',
+        '2025-05-21 08:00:00',
+        '2025-05-21 08:00:00',
+        3,
+        19,
+        3
     );
 
 -- Insertion des tags dans tags
