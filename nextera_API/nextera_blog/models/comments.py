@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from .articles import Articles
+from .authors import Authors
 
 
 class Comments(models.Model):
@@ -8,8 +9,8 @@ class Comments(models.Model):
     content = models.TextField(blank=False, null=False)
     creation_date = models.DateTimeField(blank=False, null=False, auto_now_add=True)
     update_date = models.DateTimeField(blank=False, null=False, auto_now=True)
-    user = models.ForeignKey(User, on_delete=models.CASCADE, null=False, blank=False) # change to anonym user if deleted
-    article = models.ForeignKey(Articles, on_delete=models.CASCADE, null=False, blank=False)
+    user = models.ForeignKey(Authors, on_delete=models.CASCADE, null=False, blank=False) # change to anonym user if deleted
+    article = models.ForeignKey(Articles, on_delete=models.CASCADE, null=False, blank=False, related_name='comments')
     parent_comment = models.ForeignKey(
         'self', 
         on_delete=models.CASCADE, 
