@@ -92,7 +92,8 @@ class CreateArticleView(APIView):
 
     def post(self, request):
         # Permissions check
-        if not request.user.is_superuser:
+        user_role = request.user.user_role.role.role_name
+        if (user_role != 'Author'):
             return Response({"message": "Accès refusé. Droits insuffisants."}, status=403)
 
         data = request.data
