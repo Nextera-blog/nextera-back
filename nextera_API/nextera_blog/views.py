@@ -126,10 +126,7 @@ def author_detail(request, id):
 
 @api_view(['GET'])
 def test(request):
-    try:
-        author = Authors.objects.get(user=1)
-    except Authors.DoesNotExist:
-        return Response({'detail': 'auteur non trouvé.'}, status=404)
 
-    serializer = AuthorsDetailSerializer(author)
+    reaction = ReactionTypes.objects.all()
+    serializer = ReactionsArticleSerializer(reaction, many=True, context={'article_id': 1})
     return Response(serializer.data)
