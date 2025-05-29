@@ -107,6 +107,40 @@ class CreateArticleView(APIView):
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+@api_view(['PUT'])
+@permission_classes([IsAuthenticated])
+def article_update(request, id):
+    # Get article instance to update or send error
+    try:
+        article = Articles.objects.get(article_id = id)
+    except Articles.DoesNotExist:
+        raise NotFound(detail="Un problème est survenu lors de la mise à jour de l'article")
+
+    # Author role permissions check
+    user_role = request.user.user_role.role.role_name
+    if (user_role != 'Author'):
+        return Response({"message": "Accès refusé. Droits insuffisants."}, status=403)
+    
+    # Check connected user is request article owner
+    user_id = request.user.id
+    author = request.data.get('author', {})
+    author_id = author.get('user')
+    if author_id != user_id:
+        return Response({"message": "Accès refusé. Droits d'écriture insuffisants."}, status=403)
+    
+    # Check database article and request article have the same author
+    if author_id != article.author.user:
+        return Response({"message": "Accès refusé. Les droits d'écriture sont insuffisants."}, status=403)
+    
+    serializer = ArticlesUpdateSerializer(instance = article, data = request.data)
+    if serializer.is_valid():
+        serializer.save()
+        response_serializer = ArticlesDetailSerializer(article, many=False)
+        return Response(response_serializer.data)
+    else:
+        return Response(serializer.errors, status=400)
+    
+
 
 # Authors
 
@@ -123,10 +157,10 @@ def author_detail(request, id):
     return Response(serializer.data)
 
 
+# Tests
 
-@api_view(['GET'])
-def test(request):
-
-    reaction = ReactionTypes.objects.all()
-    serializer = ReactionsArticleSerializer(reaction, many=True, context={'article_id': 1})
+@api_view(['PUT'])
+def test(request, id):
+    article = get_object_or_404(Articles, article_id=id)
+    serializer = ArticlesDetailSerializer(article, many=False)
     return Response(serializer.data)

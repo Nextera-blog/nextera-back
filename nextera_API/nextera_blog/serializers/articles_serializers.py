@@ -2,6 +2,7 @@
 # Mandatory here
 
 from nextera_API.nextera_blog.serializers import *
+from drf_writable_nested import UniqueFieldsMixin, NestedUpdateMixin
 from .comments_serializers import CommentsChainSerializer
 from .reaction_types_serializers import ReactionsArticleSerializer
 
@@ -63,3 +64,12 @@ class  ArticlesMinimalSerializer(serializers.ModelSerializer):
     class Meta:
         model = Articles
         fields = ['article_id', 'title']
+
+class ArticlesUpdateSerializer(UniqueFieldsMixin, NestedUpdateMixin):
+    tags = serializers.PrimaryKeyRelatedField(
+        many=True,
+        queryset=Tags.objects.all()
+    )
+    class Meta:
+        model = Articles
+        fields = ['title', 'content', 'tags']
