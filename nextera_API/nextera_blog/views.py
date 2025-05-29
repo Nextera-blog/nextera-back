@@ -66,6 +66,17 @@ def register_user(request):
         return Response(serializer.data, status=status.HTTP_201_CREATED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+@api_view(['PUT'])
+@permission_classes([IsAuthenticated])
+def update_user(request):
+    serializer = UpdateUserSerializer(instance = request.user, data= request.data)
+    if serializer.is_valid():
+        serializer.save()
+        response_serializer = CurrentUserSerializer(request.user)
+        return Response(response_serializer.data)
+    else:
+        return Response(serializer.errors, status=400)
+
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def current_user(request):
@@ -124,9 +135,13 @@ def author_detail(request, id):
 
 
 
-@api_view(['GET'])
+@api_view(['PUT'])
 def test(request):
-
-    reaction = ReactionTypes.objects.all()
-    serializer = ReactionsArticleSerializer(reaction, many=True, context={'article_id': 1})
-    return Response(serializer.data)
+    user = User.objects.get(id=1)
+    serializer = UpdateUserSerializer(instance = user, data= request.data)
+    if serializer.is_valid():
+        serializer.save()
+        response_serializer = CurrentUserSerializer(user)
+        return Response(response_serializer.data)
+    else:
+        return Response(serializer.errors, status=400)
