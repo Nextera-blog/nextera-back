@@ -68,7 +68,28 @@ def register_user(request):
 
 @api_view(['PUT'])
 @permission_classes([IsAuthenticated])
-def update_user(request):
+def update_user(request, id):
+
+    # Check id is valid
+    try:
+        data_user_id = int(request.data.get("id"))
+    except (TypeError, ValueError):
+        return Response({"message": "ID invalide."}, status=400)
+
+    # Check user exist in db
+    try:
+        target_user = User.objects.get(id=id)
+    except User.DoesNotExist:
+        raise NotFound(detail="Un problème est survenu lors de la modification du compte")
+
+    # Check user is the same
+    is_same_user = (
+        target_user.id == request.user.id == data_user_id
+    )
+    if not is_same_user:
+        return Response({"message": "Accès refusé. Droits insuffisants."}, status=403)
+    
+    # Update account
     serializer = UpdateUserSerializer(instance = request.user, data= request.data)
     if serializer.is_valid():
         serializer.save()

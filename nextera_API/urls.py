@@ -35,7 +35,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     # Users
     path('users/register/', views.register_user, name='register_user'),
-    path('users/update/', views.update_user, name='update_user'),
+    path('users/update/<int:id>', views.update_user, name='update_user'),
     path('users/current/', views.current_user, name='current_user'),
     # Articles
     path('articles/', views.articles_list, name='articles_list'),
