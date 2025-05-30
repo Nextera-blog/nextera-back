@@ -1,6 +1,8 @@
 # Django
 from django.shortcuts import get_object_or_404, get_list_or_404
 from django.utils import timezone
+from django.core.validators import validate_email
+from django.core.exceptions import ValidationError
 
 # Auth
 from django.contrib.auth import authenticate, get_user_model
@@ -57,6 +59,18 @@ def register_user(request):
     except Roles.DoesNotExist:
         raise NotFound(detail="Un problème est survenu lors de la création du compte")
     
+    # email check
+    email = request.data.get('email');
+    try:
+        validate_email(email);
+    except ValidationError:
+        return Response({"error": "Email invalide"}, status=status.HTTP_400_BAD_REQUEST)
+    
+    already_existing_email = User.objects.filter(email=email).exists()
+
+    if already_existing_email:
+        return Response({"error": "Email indisponible"}, status=status.HTTP_400_BAD_REQUEST)
+    
     serializer = UserSerializer(data=request.data)
     
     if serializer.is_valid():
@@ -82,12 +96,21 @@ def update_user(request, id):
     except User.DoesNotExist:
         raise NotFound(detail="Un problème est survenu lors de la modification du compte")
 
-    # Check user is the same
-    is_same_user = (
-        target_user.id == request.user.id == data_user_id
-    )
-    if not is_same_user:
+    # Check user identity match
+    if target_user.id != request.user.id or data_user_id != request.user.id:
         return Response({"message": "Accès refusé. Droits insuffisants."}, status=403)
+    
+    # email check
+    email = request.data.get('email');
+    try:
+        validate_email(email);
+    except ValidationError:
+        return Response({"error": "Email invalide"}, status=status.HTTP_400_BAD_REQUEST)
+    
+    already_existing_email = User.objects.filter(email=email).exclude(id=data_user_id).exists()
+
+    if already_existing_email:
+        return Response({"error": "Email indisponible"}, status=status.HTTP_400_BAD_REQUEST)
     
     # Update account
     serializer = UpdateUserSerializer(instance = request.user, data= request.data)
