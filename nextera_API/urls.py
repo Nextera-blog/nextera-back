@@ -40,7 +40,7 @@ urlpatterns = [
     path('articles/', views.articles_list, name='articles_list'),
     path('articles/<int:id>/', views.article_detail, name='article_details'),
     path('articles/create/', CreateArticleView.as_view(), name='article_create'),
-    path('articles/update/', views.article_update, name='article_update'),
+    path('articles/update/<int:id>/', views.article_update, name='article_update'),
 
     # Authors
     path('authors/', views.authors_list, name = 'authors_list'),
