@@ -2,5 +2,5 @@ from .base_serializers import *
 from .users_serializers import UserSerializer, CurrentUserSerializer
 from .articles_serializers import ArticlesListSerializer, ArticlesDetailSerializer, ArticlesWriteSerializer, ArticlesMinimalSerializer
 from .authors_serializers import AuthorsDetailSerializer
-from .comments_serializers import CommentsChainSerializer
+from .comments_serializers import CommentsChainSerializer, CommentsCreateSerializer, CommentsUpdateSerializer
 from .reaction_types_serializers import ReactionsArticleSerializer, ReactionsCommentSerializer

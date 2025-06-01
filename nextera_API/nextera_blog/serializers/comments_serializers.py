@@ -4,6 +4,25 @@
 from nextera_API.nextera_blog.serializers import *
 from .reaction_types_serializers import ReactionsCommentSerializer
 
+
+class CommentsCreateSerializer(serializers.ModelSerializer):
+    user = serializers.PrimaryKeyRelatedField(queryset=Authors.objects.all())
+    article = serializers.PrimaryKeyRelatedField(queryset=Articles.objects.all())
+    parent_comment = serializers.PrimaryKeyRelatedField(queryset=Comments.objects.all(), allow_null=True)
+
+    class Meta:
+        model = Comments
+        fields = ['comment_id', 'content', 'user', 'article', 'parent_comment']
+
+
+class CommentsUpdateSerializer(serializers.ModelSerializer):
+    user = serializers.PrimaryKeyRelatedField(queryset=Authors.objects.all())
+
+    class Meta:
+        model = Comments
+        fields = ['comment_id', 'content', 'user']
+
+
 class CommentsChainSerializer(serializers.ModelSerializer):
     # Relations (use the model field name to set serialization properly)
     user = BaseAuthorsSerializer(many=False)

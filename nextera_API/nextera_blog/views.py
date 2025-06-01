@@ -123,10 +123,79 @@ def author_detail(request, id):
     return Response(serializer.data)
 
 
+# Comments
 
-@api_view(['GET'])
-def test(request):
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def comment_create(request):
 
-    reaction = ReactionTypes.objects.all()
-    serializer = ReactionsArticleSerializer(reaction, many=True, context={'article_id': 1})
-    return Response(serializer.data)
+    # Check id is valid
+    try:
+        data_user_id = int(request.data.get('user'))
+    except (TypeError, ValueError):
+        return Response({"message": "Identifiants invalides."}, status=400)
+    # Is same user and user exists
+    if (data_user_id != request.user.id):
+        return Response({"message": "Un problème est survenu"}, status=400)
+
+    data = request.data
+    data['comment_id'] = None
+
+    serializer = CommentsCreateSerializer(data=data)
+    if serializer.is_valid():
+        serializer.save()
+        new_comment_id = serializer.data.get('comment_id')
+        new_comment = Comments.objects.get(comment_id = new_comment_id)
+        response_serializer = BaseCommentsSerializer(new_comment)
+        return Response(response_serializer.data, status=status.HTTP_201_CREATED)
+
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['PUT'])
+@permission_classes([IsAuthenticated])
+def comment_update(request, id):
+    # Check user id is valid
+    try:
+        data_user_id = int(request.data.get('user'))
+    except (TypeError, ValueError):
+        return Response({"message": "Identifiants invalides."}, status=400)
+    # Is same user and user exists
+    if (data_user_id != request.user.id):
+        return Response({"message": "Un problème est survenu"}, status=400)
+    
+     # Check comment id is valid
+    try:
+        data_comment_id = int(request.data.get('comment_id'))
+    except (TypeError, ValueError):
+        return Response({"message": "Identifiant invalide."}, status=400)
+    # Is same user and user exists
+    if (id != data_comment_id):
+        return Response({"message": "Un problème est survenu"}, status=400)
+    
+    try:
+        comment = Comments.objects.get(comment_id = id, user = request.user.id)
+    except (TypeError, ValueError):
+        return Response({"message": "Un problème est survenu"}, status=404)
+    
+    serializer = CommentsUpdateSerializer(instance = comment, data = request.data)
+
+    if serializer.is_valid():
+        serializer.save()
+        updated_comment = Comments.objects.get(comment_id = id)
+        response_serializer = CommentsChainSerializer(updated_comment)
+        return Response(response_serializer.data, status=status.HTTP_200_OK)
+    else:
+        return Response(serializer.errors, status=400)
+
+
+# @api_view(['GET'])
+# def test(request):
+#     user = User.objects.get(id=1)
+#     serializer = UpdateUserSerializer(instance = user, data= request.data)
+#     if serializer.is_valid():
+#         serializer.save()
+#         response_serializer = CurrentUserSerializer(user)
+#         return Response(response_serializer.data)
+#     else:
+#         return Response(serializer.errors, status=400)
+    

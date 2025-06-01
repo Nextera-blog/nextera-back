@@ -43,6 +43,10 @@ urlpatterns = [
     # Authors
     path('authors/', views.authors_list, name = 'authors_list'),
     path('authors/<int:id>/', views.author_detail, name = 'author_details'),
+    # Comments
+    path('comments/create/', views.comment_create, name = 'comment_create'),
+    path('comments/update/<int:id>/', views.comment_update, name = 'comment_update'),
+
     # Test only
-    path('test/', views.test, name='test')
+    # path('test/', views.test, name='test')
 ]
