@@ -124,12 +124,13 @@ def article_update(request, id):
     # Check connected user is request article owner
     user_id = request.user.id
     author = request.data.get('author', {})
-    author_id = author.get('user')
+    author_id = int(author.get('user'))
+
     if author_id != user_id:
         return Response({"message": "Accès refusé. Droits d'écriture insuffisants."}, status=403)
     
     # Check database article and request article have the same author
-    if author_id != article.author.user:
+    if author_id != article.author.user.id:
         return Response({"message": "Accès refusé. Les droits d'écriture sont insuffisants."}, status=403)
     
     serializer = ArticlesUpdateSerializer(instance = article, data = request.data)
