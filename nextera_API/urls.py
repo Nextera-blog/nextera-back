@@ -43,6 +43,8 @@ urlpatterns = [
     # Authors
     path('authors/', views.authors_list, name = 'authors_list'),
     path('authors/<int:id>/', views.author_detail, name = 'author_details'),
+    # Tags
+    path('tags/', views.tags_list, name = 'tags_list'),
     # Test only
     path('test/', views.test, name='test')
 ]
