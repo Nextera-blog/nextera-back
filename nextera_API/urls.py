@@ -44,6 +44,9 @@ urlpatterns = [
     # Authors
     path('authors/', views.authors_list, name = 'authors_list'),
     path('authors/<int:id>/', views.author_detail, name = 'author_details'),
+    # Reactions
+    path('articles/reactions/<int:id>/', views.article_reaction_manage, name= 'article_reaction_manage'),
+    path('comments/reactions/<int:id>/', views.comment_reaction_manage, name= 'comment_reaction_manage'),
     # Test only
     path('test/', views.test, name='test')
 ]

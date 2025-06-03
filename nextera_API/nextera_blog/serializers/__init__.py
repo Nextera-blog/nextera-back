@@ -4,3 +4,5 @@ from .articles_serializers import ArticlesListSerializer, ArticlesDetailSerializ
 from .authors_serializers import AuthorsDetailSerializer, AuthorsUpdateSerializer
 from .comments_serializers import CommentsChainSerializer
 from .reaction_types_serializers import ReactionsArticleSerializer, ReactionsCommentSerializer
+from .article_reactions_serializers import ArticleReactionsManageSerializer
+from .comment_reactions_serializers import CommentReactionsManageSerializer

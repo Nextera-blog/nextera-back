@@ -20,7 +20,6 @@ class ReactionsArticleSerializer(serializers.ModelSerializer):
             reaction_type=obj,
             article_id=article_id
         ).count()
-    
 
 class ReactionsCommentSerializer(serializers.ModelSerializer):
 
