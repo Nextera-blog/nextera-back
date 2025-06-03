@@ -183,7 +183,7 @@ def comment_reaction_manage(request, id):
         comment_id = int(request.data.get('comment'))
         reaction_id = int(request.data.get('reaction_type'))
     except (ValueError, TypeError):
-        return Response({"error": "Cet valeur n'existe pas"}, status=status.HTTP_400_BAD_REQUEST)
+        return Response({"error": "Cette valeur n'existe pas"}, status=status.HTTP_400_BAD_REQUEST)
 
     # Check is same user
     if user_id != request.user.id:
@@ -199,7 +199,7 @@ def comment_reaction_manage(request, id):
     
     # Check reaction exists
     if not ReactionTypes.objects.filter(reaction_type_id = reaction_id).exists():
-        return Response ({"message": "Cette reaction n'existe pas"}, status=404)
+        return Response ({"message": "Cette réaction n'existe pas"}, status=404)
     
     # Check for operation (creata/update/delete)
     # If exact same, delete it
