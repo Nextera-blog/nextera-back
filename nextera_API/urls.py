@@ -53,6 +53,8 @@ urlpatterns = [
     # Reactions
     path('articles/reactions/<int:id>/', views.article_reaction_manage, name= 'article_reaction_manage'),
     path('comments/reactions/<int:id>/', views.comment_reaction_manage, name= 'comment_reaction_manage'),
+    # Tags
+    path('tags/', views.tags_list, name = 'tags_list'),
     # Test only
     # path('test/<int:id>/', views.test, name='test')
 ]

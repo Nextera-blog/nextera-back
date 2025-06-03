@@ -212,6 +212,11 @@ def author_detail(request, id):
     serializer = AuthorsDetailSerializer(author)
     return Response(serializer.data)
 
+@api_view(['GET'])
+def tags_list(request):
+    tags = Tags.objects.all()
+    serializer = BaseTagsSerializer(tags, many=True)
+    return Response(serializer.data)
 
 # Comments
 
