@@ -39,8 +39,10 @@ urlpatterns = [
     path('users/current/', views.current_user, name='current_user'),
     # Articles
     path('articles/', views.articles_list, name='articles_list'),
-    path('articles/<int:id>/', views.article_detail, name='articles_details'),
-    path('articles/create/', CreateArticleView.as_view(), name='articles_create'),
+    path('articles/<int:id>/', views.article_detail, name='article_details'),
+    path('articles/create/', CreateArticleView.as_view(), name='article_create'),
+    path('articles/update/<int:id>/', views.article_update, name='article_update'),
+
     # Authors
     path('authors/', views.authors_list, name = 'authors_list'),
     path('authors/<int:id>/', views.author_detail, name = 'author_details'),
@@ -48,5 +50,5 @@ urlpatterns = [
     path('articles/reactions/<int:id>/', views.article_reaction_manage, name= 'article_reaction_manage'),
     path('comments/reactions/<int:id>/', views.comment_reaction_manage, name= 'comment_reaction_manage'),
     # Test only
-    path('test/', views.test, name='test')
+    path('test/<int:id>/', views.test, name='test')
 ]
