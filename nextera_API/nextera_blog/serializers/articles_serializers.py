@@ -65,7 +65,7 @@ class  ArticlesMinimalSerializer(serializers.ModelSerializer):
         model = Articles
         fields = ['article_id', 'title']
 
-class ArticlesUpdateSerializer(UniqueFieldsMixin, NestedUpdateMixin):
+class ArticlesUpdateSerializer(UniqueFieldsMixin, NestedUpdateMixin, serializers.ModelSerializer):
     tags = serializers.PrimaryKeyRelatedField(
         many=True,
         queryset=Tags.objects.all()

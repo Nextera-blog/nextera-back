@@ -195,7 +195,20 @@ def article_update(request, id):
         return Response(response_serializer.data)
     else:
         return Response(serializer.errors, status=400)
+
+@api_view(['DELETE'])
+@permission_classes([IsAuthenticated])
+def article_delete(request, id):
+    try:
+        article_id = int(id)
+    except (TypeError, ValueError):
+        return Response({"message": "Un problème est survenu"}, status=404)
     
+    author = get_object_or_404(Authors, user = request.user)
+    article = get_object_or_404(Articles, article_id= article_id, author = author)
+    article.delete()
+    
+    return Response({"message": "Article supprimé avec succès"}, status=204)
 
 
 # Authors
@@ -277,8 +290,21 @@ def comment_update(request, id):
     else:
         return Response(serializer.errors, status=400)
     
+@api_view(['DELETE'])
+@permission_classes([IsAuthenticated])
+def comment_delete(request, id):
+    try:
+        comment_id = int(id)
+    except (TypeError, ValueError):
+        return Response({"message": "Un problème est survenu"}, status=404)
     
+    author = get_object_or_404(Authors, user = request.user)
+    comment = get_object_or_404(Comments, comment_id= comment_id, user = author)
+    comment.delete()
+    
+    return Response({"message": "Commentaire supprimé avec succès"}, status=204)
 
+    
 # Reactions
 
 @api_view(['PUT'])
