@@ -2,6 +2,8 @@
 # Mandatory here
 
 from nextera_API.nextera_blog.serializers import *
+from drf_writable_nested import NestedUpdateMixin, WritableNestedModelSerializer
+from .authors_serializers import AuthorsUpdateSerializer
 
 # Specific imports
 
@@ -37,3 +39,10 @@ class CurrentUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ['id', 'username', 'first_name', 'last_name', 'email', 'author', 'role']
+
+class UpdateUserSerializer(NestedUpdateMixin, serializers.ModelSerializer):
+    author = AuthorsUpdateSerializer(source='author_profile', many=False)
+
+    class Meta:
+        model = User
+        fields = ['username', 'first_name', 'last_name', 'email', 'author']

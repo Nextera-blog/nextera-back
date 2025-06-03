@@ -1,6 +1,7 @@
 # Django
 from django.shortcuts import get_object_or_404, get_list_or_404
 from django.utils import timezone
+from django.core.validators import validate_email
 from django.core.exceptions import ValidationError
 
 # Auth
@@ -58,6 +59,18 @@ def register_user(request):
     except Roles.DoesNotExist:
         raise NotFound(detail="Un problème est survenu lors de la création du compte")
     
+    # email check
+    email = request.data.get('email');
+    try:
+        validate_email(email);
+    except ValidationError:
+        return Response({"error": "Email invalide"}, status=status.HTTP_400_BAD_REQUEST)
+    
+    already_existing_email = User.objects.filter(email=email).exists()
+
+    if already_existing_email:
+        return Response({"error": "Email indisponible"}, status=status.HTTP_400_BAD_REQUEST)
+    
     serializer = UserSerializer(data=request.data)
     
     if serializer.is_valid():
@@ -66,6 +79,47 @@ def register_user(request):
         Authors.objects.create(user=new_user, name=new_user.username)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['PUT'])
+@permission_classes([IsAuthenticated])
+def update_user(request, id):
+
+    # Check id is valid
+    try:
+        data_user_id = int(request.data.get("id"))
+    except (TypeError, ValueError):
+        return Response({"message": "ID invalide."}, status=400)
+
+    # Check user exist in db
+    try:
+        target_user = User.objects.get(id=id)
+    except User.DoesNotExist:
+        raise NotFound(detail="Un problème est survenu lors de la modification du compte")
+
+    # Check user identity match
+    if target_user.id != request.user.id or data_user_id != request.user.id:
+        return Response({"message": "Accès refusé. Droits insuffisants."}, status=403)
+    
+    # email check
+    email = request.data.get('email');
+    try:
+        validate_email(email);
+    except ValidationError:
+        return Response({"error": "Email invalide"}, status=status.HTTP_400_BAD_REQUEST)
+    
+    already_existing_email = User.objects.filter(email=email).exclude(id=data_user_id).exists()
+
+    if already_existing_email:
+        return Response({"error": "Email indisponible"}, status=status.HTTP_400_BAD_REQUEST)
+    
+    # Update account
+    serializer = UpdateUserSerializer(instance = request.user, data= request.data)
+    if serializer.is_valid():
+        serializer.save()
+        response_serializer = CurrentUserSerializer(request.user)
+        return Response(response_serializer.data)
+    else:
+        return Response(serializer.errors, status=400)
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
@@ -223,9 +277,13 @@ def comment_reaction_manage(request, id):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-@api_view(['GET'])
+@api_view(['PUT'])
 def test(request):
-
-    reaction = ReactionTypes.objects.all()
-    serializer = ReactionsArticleSerializer(reaction, many=True, context={'article_id': 1})
-    return Response(serializer.data)
+    user = User.objects.get(id=1)
+    serializer = UpdateUserSerializer(instance = user, data= request.data)
+    if serializer.is_valid():
+        serializer.save()
+        response_serializer = CurrentUserSerializer(user)
+        return Response(response_serializer.data)
+    else:
+        return Response(serializer.errors, status=400)
