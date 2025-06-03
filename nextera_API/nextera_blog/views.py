@@ -1,6 +1,7 @@
 # Django
 from django.shortcuts import get_object_or_404, get_list_or_404
 from django.utils import timezone
+from django.core.exceptions import ValidationError
 
 # Auth
 from django.contrib.auth import authenticate, get_user_model
@@ -122,6 +123,104 @@ def author_detail(request, id):
     serializer = AuthorsDetailSerializer(author)
     return Response(serializer.data)
 
+
+# Reactions
+
+@api_view(['PUT'])
+@permission_classes([IsAuthenticated])
+def article_reaction_manage(request, id):
+    # Get ids
+    try:
+        user_id = int(request.data.get('user'))
+        article_id = int(request.data.get('article'))
+        reaction_id = int(request.data.get('reaction_type'))
+    except (ValueError, TypeError):
+        return Response({"error": "Cet valeur n'existe pas"}, status=status.HTTP_400_BAD_REQUEST)
+
+    # Check is same user
+    if user_id != request.user.id:
+        return Response ({"message": "Accès refusé. Droits insuffisants."}, status=403)
+    
+    # Check is same article
+    if article_id != id:
+        return Response ({"message": "Un problème est survenu."}, status=400)
+
+    # Check article exists
+    if not Articles.objects.filter(article_id = article_id).exists():
+        return Response ({"message": "Cet article n'existe pas"}, status=404)
+    
+    # Check reaction exists
+    if not ReactionTypes.objects.filter(reaction_type_id = reaction_id).exists():
+        return Response ({"message": "Cette reaction n'existe pas"}, status=404)
+    
+    # Check for operation (creata/update/delete)
+    # If exact same, delete it
+    if ArticleReactions.objects.filter(user = request.user, article = article_id, reaction_type = reaction_id).exists():
+        reaction_to_delete = ArticleReactions.objects.get(user = request.user, article = article_id)
+        reaction_to_delete.delete()
+        return Response({'message': 'Réaction supprimée avec succès'}, status=200)
+    else:
+        # if exist, update
+        try:
+            reaction_to_update = ArticleReactions.objects.get(user=request.user, article=article_id)
+            serializer = ArticleReactionsManageSerializer(instance=reaction_to_update, data=request.data)
+        # if not create
+        except ArticleReactions.DoesNotExist:
+            serializer = ArticleReactionsManageSerializer(data=request.data)
+
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['PUT'])
+@permission_classes([IsAuthenticated])
+def comment_reaction_manage(request, id):
+    # Get ids
+    try:
+        user_id = int(request.data.get('user'))
+        comment_id = int(request.data.get('comment'))
+        reaction_id = int(request.data.get('reaction_type'))
+    except (ValueError, TypeError):
+        return Response({"error": "Cette valeur n'existe pas"}, status=status.HTTP_400_BAD_REQUEST)
+
+    # Check is same user
+    if user_id != request.user.id:
+        return Response ({"message": "Accès refusé. Droits insuffisants."}, status=403)
+    
+    # Check is same article
+    if comment_id != id:
+        return Response ({"message": "Un problème est survenu."}, status=400)
+
+    # Check article exists
+    if not Comments.objects.filter(comment_id = comment_id).exists():
+        return Response ({"message": "Cet article n'existe pas"}, status=404)
+    
+    # Check reaction exists
+    if not ReactionTypes.objects.filter(reaction_type_id = reaction_id).exists():
+        return Response ({"message": "Cette réaction n'existe pas"}, status=404)
+    
+    # Check for operation (creata/update/delete)
+    # If exact same, delete it
+    if CommentReactions.objects.filter(user = request.user, comment = comment_id, reaction_type = reaction_id).exists():
+        reaction_to_delete = CommentReactions.objects.get(user = request.user, comment = comment_id)
+        reaction_to_delete.delete()
+        return Response({'message': 'Réaction supprimée avec succès'}, status=200)
+    else:
+        # if exist, update
+        try:
+            reaction_to_update = CommentReactions.objects.get(user=request.user, comment = comment_id)
+            serializer = CommentReactionsManageSerializer(instance=reaction_to_update, data=request.data)
+        # if not create
+        except CommentReactions.DoesNotExist:
+            serializer = CommentReactionsManageSerializer(data=request.data)
+
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['GET'])
