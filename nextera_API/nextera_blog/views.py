@@ -3,7 +3,6 @@ from django.shortcuts import get_object_or_404, get_list_or_404
 from django.utils import timezone
 from django.core.validators import validate_email
 from django.core.exceptions import ValidationError
-
 # Auth
 from django.contrib.auth import authenticate, get_user_model
 from rest_framework_simplejwt.tokens import RefreshToken
@@ -13,6 +12,7 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.views import APIView
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
+from rest_framework.pagination import PageNumberPagination
 from rest_framework import status
 from rest_framework.exceptions import NotFound
 
@@ -132,14 +132,17 @@ def current_user(request):
 
 @api_view(['GET'])
 def articles_list(request):
-    articles = Articles.objects.all()
-    serializer = ArticlesListSerializer(articles, many=True)
-    return Response(serializer.data)
+    articles = Articles.objects.all().order_by('creation_date')
+    paginator = PageNumberPagination()
+    paginator.page_size = 10
+    result_page = paginator.paginate_queryset(articles, request)
+    serializer = ArticlesListSerializer(result_page, many=True)
+    return paginator.get_paginated_response(serializer.data)
 
 @api_view(['GET'])
 def article_detail(request, id):
     article = get_object_or_404(Articles, article_id=id)
-    serializer = ArticlesDetailSerializer(article, many=False)
+    serializer = ArticlesDetailSerializer(article, many=False, context={'request': request})
     return Response(serializer.data)
 
 class CreateArticleView(APIView):
