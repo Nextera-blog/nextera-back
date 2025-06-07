@@ -3,6 +3,7 @@
 
 from nextera_API.nextera_blog.serializers import *
 from drf_writable_nested import UniqueFieldsMixin
+from .articles_serializers import ArticlesMinimalSerializer
 
 class AuthorsDetailSerializer(serializers.ModelSerializer):
     # Relations (use the model field name to set serialization properly)
