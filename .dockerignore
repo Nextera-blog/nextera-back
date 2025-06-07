@@ -1,0 +1,11 @@
+# ignore dockerfile to avoid infinite build loops
+
+Dockerfile
+
+# db assets
+
+nextera_back_bdd
+
+# virtual env
+
+nextera_venv
