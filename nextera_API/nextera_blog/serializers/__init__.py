@@ -1,6 +1,6 @@
 from .base_serializers import *
 from .users_serializers import UserSerializer, CurrentUserSerializer
-from .articles_serializers import ArticlesListSerializer, ArticlesDetailSerializer, ArticlesWriteSerializer, ArticlesMinimalSerializer, ArticlesUpdateSerializer
+from .articles_serializers import ArticlesListSerializer, ArticlesDetailSerializer, ArticlesWriteSerializer, ArticlesMinimalSerializer, ArticlesUpdateSerializer, ArticlesUpdateResponseSerializer
 from .users_serializers import UserSerializer, CurrentUserSerializer, UpdateUserSerializer
 from .authors_serializers import AuthorsDetailSerializer, AuthorsUpdateSerializer
 from .comments_serializers import CommentsChainSerializer, CommentsCreateSerializer, CommentsUpdateSerializer

@@ -57,6 +57,33 @@ class ArticlesDetailSerializer(serializers.ModelSerializer):
         reaction_types = ReactionTypes.objects.all()
         # Get counter with reactions
         return ReactionsArticleSerializer(reaction_types, many=True, context={'article_id': obj.article_id}).data
+    
+class ArticlesUpdateResponseSerializer(serializers.ModelSerializer):
+    # Relations (use the model field name to set serialization properly)
+    author = BaseAuthorsSerializer(many=False)
+    tags = BaseTagsSerializer(many=True)
+    comments = serializers.SerializerMethodField()
+    article_reactions = serializers.SerializerMethodField()
+
+    
+    class Meta:
+        model = Articles
+        fields = ['article_id', 'title', 'content', 'creation_date', 'update_date', 
+                  'author', 'tags', 'comments', 'article_reactions']
+
+    def get_comments(self, obj):
+        request = self.context.get('request')
+
+        # Get root level comments
+        root_comments = Comments.objects.filter(article=obj, parent_comment=None).order_by('creation_date')
+        # Start by serializing those
+        return CommentsChainSerializer(root_comments, many=True, context=self.context).data
+    
+    def get_article_reactions(self, obj):
+        # Get all reactions
+        reaction_types = ReactionTypes.objects.all()
+        # Get counter with reactions
+        return ReactionsArticleSerializer(reaction_types, many=True, context={'article_id': obj.article_id}).data
 
 
 class ArticlesWriteSerializer(serializers.ModelSerializer):

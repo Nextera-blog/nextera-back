@@ -184,6 +184,7 @@ def article_update(request, id):
     author = request.data.get('author', {})
     author_id = int(author.get('user'))
 
+
     if author_id != user_id:
         return Response({"message": "Accès refusé. Droits d'écriture insuffisants."}, status=403)
     
@@ -191,10 +192,11 @@ def article_update(request, id):
     if author_id != article.author.user.id:
         return Response({"message": "Accès refusé. Les droits d'écriture sont insuffisants."}, status=403)
     
-    serializer = ArticlesUpdateSerializer(instance = article, data = request.data)
+    serializer = ArticlesUpdateSerializer(instance = article, data = request.data, context={'request': request})
     if serializer.is_valid():
+        print(author.get('user'))
         serializer.save()
-        response_serializer = ArticlesDetailSerializer(article, many=False)
+        response_serializer = ArticlesUpdateResponseSerializer(article, many=False)
         return Response(response_serializer.data)
     else:
         return Response(serializer.errors, status=400)
