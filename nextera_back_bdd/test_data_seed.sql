@@ -22,7 +22,7 @@ VALUES (
         'Alexandria',
         'Valentin',
         'admin@admin.com',
-        0,
+        1,
         1,
         '2023-08-02 09:45:41.766535'
     );
