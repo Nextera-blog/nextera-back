@@ -143,7 +143,7 @@ class ArticlesSearchView(ListAPIView):
 
     # Modify request
     def get_queryset(self):
-        queryset = Articles.objects.all()
+        queryset = Articles.objects.all().order_by('creation_date')
         tags_param = self.request.GET.get('tags', '')
         if tags_param:
             # Transform tags string to array
