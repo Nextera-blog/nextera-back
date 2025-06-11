@@ -3,7 +3,6 @@ from django.shortcuts import get_object_or_404, get_list_or_404
 from django.utils import timezone
 from django.core.validators import validate_email
 from django.core.exceptions import ValidationError
-
 # Auth
 from django.contrib.auth import authenticate, get_user_model
 from rest_framework_simplejwt.tokens import RefreshToken
@@ -15,6 +14,7 @@ from rest_framework.filters import SearchFilter
 from rest_framework.views import APIView
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
+from rest_framework.pagination import PageNumberPagination
 from rest_framework import status
 from rest_framework.exceptions import NotFound
 
@@ -134,8 +134,10 @@ def current_user(request):
 #  Article views
 
 class ArticlesSearchView(ListAPIView):
-    queryset = Articles.objects.all()
+    queryset = Articles.objects.all().order_by('creation_date')
     serializer_class = ArticlesListSerializer
+    paginator = PageNumberPagination()
+    paginator.page_size = 10
     filter_backends = [SearchFilter]
     search_fields = ['title']
 
@@ -156,7 +158,7 @@ class ArticlesSearchView(ListAPIView):
 @api_view(['GET'])
 def article_detail(request, id):
     article = get_object_or_404(Articles, article_id=id)
-    serializer = ArticlesDetailSerializer(article, many=False)
+    serializer = ArticlesDetailSerializer(article, many=False, context={'request': request})
     return Response(serializer.data)
 
 class CreateArticleView(APIView):
@@ -198,6 +200,7 @@ def article_update(request, id):
     author = request.data.get('author', {})
     author_id = int(author.get('user'))
 
+
     if author_id != user_id:
         return Response({"message": "Accès refusé. Droits d'écriture insuffisants."}, status=403)
     
@@ -205,10 +208,11 @@ def article_update(request, id):
     if author_id != article.author.user.id:
         return Response({"message": "Accès refusé. Les droits d'écriture sont insuffisants."}, status=403)
     
-    serializer = ArticlesUpdateSerializer(instance = article, data = request.data)
+    serializer = ArticlesUpdateSerializer(instance = article, data = request.data, context={'request': request})
     if serializer.is_valid():
+        print(author.get('user'))
         serializer.save()
-        response_serializer = ArticlesDetailSerializer(article, many=False)
+        response_serializer = ArticlesUpdateResponseSerializer(article, many=False)
         return Response(response_serializer.data)
     else:
         return Response(serializer.errors, status=400)
