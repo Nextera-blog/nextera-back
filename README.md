@@ -36,9 +36,9 @@ When you need to quit the venv do: `Ctrl + D`
 
 ## Set DB connection
 
-### Create the Database and Tables
+### Create the Database and Tables (DEPRECATED / SEE NEXT PARAGRAPH)
 
-Start by importing the bdd.sql file to create the database and its tables in your MySQL Database Management System (DBMS).
+<!-- Start by importing the bdd.sql file to create the database and its tables in your MySQL Database Management System (DBMS).
 
 You’ll find the file in: nextera-back/nextera_back_bdd.
 
@@ -52,7 +52,11 @@ If for any reason you must do it manually, follow these steps:
 - The SQL client will ask for your database password. Enter it.
 
 - Now that you are connected to your database, execute in the client: `> SOURCE ./nextera_back_bdd/bdd.sql`
-  The database should now be created.
+  The database should now be created. -->
+
+### Create the database
+
+Simply create a database named "nextera" with an encoding in utf8mb4_unicode_ci (needed for emojis) in your MySQL Database Management System (DBMS).
 
 ### Set Up Environment Configuration
 
@@ -60,7 +64,7 @@ If for any reason you must do it manually, follow these steps:
   The .env.local file overrides .env, so this is where you should put the values specific to your local configuration.
   An example file is available at: nextera-back/nextera_back_bdd.
 
-⚠️ Ask me for the 'DJANGO_SECRET_KEY', and i'll give you directly.
+⚠️ Ask me for the 'DJANGO_SECRET_KEY', and i'll give it to you directly.
 
 ### Test the Connection
 
@@ -76,7 +80,15 @@ Server version: 8.3.0 MySQL Community Server - GPL "
 
 ✅ Django is now connected to your local database.
 
-You can create a super user with `$ python manage.py createsuperuser`.
+### Create table
+
+In the root folder ./nextera-back run: `$ python manage.py migrate`
+You're done !
+
+If you want to add test fixtures, simply run the test_data_seed.sql SQL script in the ./nextera_back_bdd folder.
+The first user is a superadmin (username: admin, email: admin@admin.com, password: admin123)
+
+Else, you can create a super user with `$ python manage.py createsuperuser`.
 Keep in mind that username is used for admin interface connection while email is used frontside.
 
 ## Django / React Connection
