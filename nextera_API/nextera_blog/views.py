@@ -9,12 +9,15 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.permissions import AllowAny, IsAuthenticated
 
 # API framework
+from rest_framework.generics import ListAPIView
+from rest_framework.filters import SearchFilter
 from rest_framework.views import APIView
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework.pagination import PageNumberPagination
 from rest_framework import status
 from rest_framework.exceptions import NotFound
+
 
 # Models
 from .models import Articles, Roles
@@ -130,14 +133,27 @@ def current_user(request):
 
 #  Article views
 
-@api_view(['GET'])
-def articles_list(request):
-    articles = Articles.objects.all().order_by('creation_date')
+class ArticlesSearchView(ListAPIView):
+    queryset = Articles.objects.all().order_by('creation_date')
+    serializer_class = ArticlesListSerializer
     paginator = PageNumberPagination()
     paginator.page_size = 10
-    result_page = paginator.paginate_queryset(articles, request)
-    serializer = ArticlesListSerializer(result_page, many=True)
-    return paginator.get_paginated_response(serializer.data)
+    filter_backends = [SearchFilter]
+    search_fields = ['title']
+
+    # Modify request
+    def get_queryset(self):
+        queryset = Articles.objects.all().order_by('creation_date')
+        tags_param = self.request.GET.get('tags', '')
+        if tags_param:
+            # Transform tags string to array
+            tags_list = [t.strip() for t in tags_param.strip('{}').split(',')]
+            # Filter search on database and return only valid tag names
+            existing_tags = Tags.objects.filter(name__in=tags_list).values_list('name', flat=True)
+            for tag in existing_tags:
+                    queryset = queryset.filter(tags__name=tag)
+        # Distinct to avoid duplicate results in many to many query
+        return queryset.distinct()
 
 @api_view(['GET'])
 def article_detail(request, id):
@@ -414,13 +430,10 @@ def comment_reaction_manage(request, id):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-@api_view(['PUT'])
+@api_view(['GET'])
 def test(request):
-    user = User.objects.get(id=1)
-    serializer = UpdateUserSerializer(instance = user, data= request.data)
-    if serializer.is_valid():
-        serializer.save()
-        response_serializer = CurrentUserSerializer(user)
-        return Response(response_serializer.data)
-    else:
-        return Response(serializer.errors, status=400)
+    articles = Articles.objects.all()
+    serializer = ArticlesListSerializer(articles, many=True)
+    return Response(serializer.data)
+
+
