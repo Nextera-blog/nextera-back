@@ -1,19 +1,13 @@
-# This is an auto-generated Django model module.
-# You'll have to do the following manually to clean this up:
-#   * Rearrange models' order
-#   * Make sure each model has one field with primary_key=True
-#   * Make sure each ForeignKey and OneToOneField has `on_delete` set to the desired behavior
-#   * Remove `managed = False` lines if you wish to allow Django to create, modify, and delete the table
-# Feel free to rename the models, but don't rename db_table values or field names.
 from django.db import models
-
+from django.contrib.auth.models import User
+from .roles import Roles
 
 class UsersRoles(models.Model):
-    pk = models.CompositePrimaryKey('user_id', 'role_id')
-    user_id = models.IntegerField()
-    role_id = models.IntegerField()
+    # pk = models.CompositePrimaryKey('user_id', 'role_id')
+    user = models.OneToOneField(User, on_delete=models.CASCADE, blank=False, null=False, related_name='user_role')
+    role = models.ForeignKey(Roles, on_delete=models.CASCADE, blank=False, null=False)
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'users_roles'
-        unique_together = (('user_id', 'role_id'),)
+        unique_together = (('user', 'role'),)

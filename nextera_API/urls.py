@@ -25,19 +25,42 @@ from rest_framework_simplejwt.views import TokenRefreshView
 from nextera_API.nextera_blog import views
 
 # Classes views
-from nextera_API.nextera_blog.views import CustomLoginView, CreateArticleView
+from nextera_API.nextera_blog.views import CustomLoginView, CreateArticleView, ArticlesSearchView
 
 urlpatterns = [
     # Auth
     path('token/', CustomLoginView.as_view(), name='token_obtain_pair'),
     path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+
     # Admin
     path('admin/', admin.site.urls),
+
     # Users
-    path('users/register/', views.register_user, name='register'),
+    path('users/register/', views.register_user, name='register_user'),
+    path('users/update/<int:id>', views.update_user, name='update_user'),
     path('users/current/', views.current_user, name='current_user'),
-    # Urls
-    path('articles/', views.articles_list, name='articles_list'),
-    path('articles/<int:id>/', views.article_detail, name='articles_details'),
-    path('articles/create/', CreateArticleView.as_view(), name='articles_create')
+
+    # Articles
+    path('articles/', ArticlesSearchView.as_view(), name='articles_list'),
+    path('articles/<int:id>/', views.article_detail, name='article_details'),
+    path('articles/create/', CreateArticleView.as_view(), name='article_create'),
+    path('articles/update/<int:id>/', views.article_update, name='article_update'),
+    path('articles/delete/<int:id>/', views.article_delete, name = 'article_delete'),
+
+    # Authors
+    path('authors/', views.authors_list, name = 'authors_list'),
+    path('authors/<int:id>/', views.author_detail, name = 'author_details'),
+
+    # Comments
+    path('comments/create/', views.comment_create, name = 'comment_create'),
+    path('comments/update/<int:id>/', views.comment_update, name = 'comment_update'),
+    path('comments/delete/<int:id>/', views.comment_delete, name = 'comment_delete'),
+
+    # Reactions
+    path('articles/reactions/<int:id>/', views.article_reaction_manage, name= 'article_reaction_manage'),
+    path('comments/reactions/<int:id>/', views.comment_reaction_manage, name= 'comment_reaction_manage'),
+    # Tags
+    path('tags/', views.tags_list, name = 'tags_list'),
+    # Test only
+    path('test/', views.test, name='test')
 ]
