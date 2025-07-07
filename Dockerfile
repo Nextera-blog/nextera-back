@@ -1,7 +1,7 @@
 # --- STAGE 1: Build Dependencies ---
 # Utilise une image Python avec des outils de build pour mysqlclient
 # La version "buster" contient les outils nécessaires pour les dépendances système.
-FROM python:3.13.3-slim-buster AS builder
+FROM python:3.13-slim-bullseye AS builder
 
 # Installe les dépendances système nécessaires pour mysqlclient et autres outils de build.
 # --no-install-recommends pour réduire la taille de l'image.
@@ -23,7 +23,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 # --- STAGE 2: Final Application Image ---
 # Utilise une image Python plus petite et plus propre pour l'exécution finale.
-FROM python:3.13.3-slim-buster
+FROM python:3.13-slim-bullseye
 
 # Crée un utilisateur non-root pour des raisons de sécurité.
 # C'est une bonne pratique de ne pas faire tourner l'application en tant que root.
