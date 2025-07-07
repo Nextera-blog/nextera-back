@@ -1,0 +1,26 @@
+# Ignorer les répertoires d'environnement virtuel
+__pycache__/
+*.pyc
+.venv/
+venv/
+env/
+# Ton environnement virtuel spécifique
+nextera_venv/
+
+# Ignorer les fichiers temporaires et de base de données SQLite (si utilisés)
+*.sqlite3
+.pytest_cache/
+.tox/
+.mypy_cache/
+
+# Fichiers de configuration sensibles ou locaux
+.env
+# Ignorer le dossier de la base de données locale si tu en avais un
+# nextera_back_bdd/ # NE PAS IGNORER CE DOSSIER car il contient les scripts SQL à copier
+
+# Fichiers spécifiques au système d'exploitation
+.DS_Store
+Thumbs.db
+
+# Fichiers de log
+*.log
