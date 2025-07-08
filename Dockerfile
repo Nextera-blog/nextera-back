@@ -10,7 +10,17 @@ RUN apt-get update \
         default-libmysqlclient-dev \
         build-essential \
         gcc \
-    && rm -rf /var/lib/apt/lists/* # Nettoyage pour réduire la taille de l'image
+        pkg-config \
+        libffi-dev \
+        libmariadb-dev \
+        libmariadb3 \
+        build-essential \
+        locales \
+        locales-all && \
+    rm -rf /var/lib/apt/lists/* # Nettoyage pour réduire la taille de l'image
+
+ENV LC_ALL="C.UTF-8" \
+LANG="C.UTF-8"
 
 # Définit le répertoire de travail dans le conteneur pour ce stage.
 WORKDIR /app
