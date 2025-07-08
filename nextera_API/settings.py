@@ -101,22 +101,6 @@ DATABASES = {
     }
 }
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.mysql',
-#         'NAME': 'nextera',
-#         'USER': 'nextera_user',
-#         'PASSWORD': 'password',
-#         'HOST': 'database', # Assure-toi que c'est bien le nom de ton service de base de données dans docker-compose.yml
-#         'PORT': '3306',
-#         'OPTIONS': {
-#             'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
-#             'charset': 'utf8mb4',
-#         },
-#         'CONN_MAX_AGE': 600,
-#     }
-# }
-
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
 
